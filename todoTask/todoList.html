@@ -10,44 +10,25 @@
                 <input
                     class="todo-send-input"
                     type="text"
+                    id="addTitle"
                     placeholder="what to do?"
                 />
-                <button class="todo-send-button">add todo</button>
+                <button class="todo-send-button" id="addButton">
+                    add todo
+                </button>
             </div>
             <div class="filter">
-                <div><button class="activ">all todo</button></div>
+                <div><button class="activ" onclick="clickButton('allTodo')">all todo</button></div>
                 <div><button>checked</button></div>
                 <div><button>unchecked</button></div>
             </div>
-            <div class="list">
-                <div class="todo">
-                    <div class="title">todos in MY TODO LIST</div>
-                    <div class="checked">
-                        <input type="checkbox" onchange="check()" />checked
-                    </div>
-                    <div class="edit">
-                        <button class="edit-button">edit</button>
-                    </div>
-                    <div class="delete">
-                        <button class="delete-button">delete</button>
-                    </div>
-                </div>
-                <div class="todo">
-                    <div class="title">wery many big title todos in MY TODO LIST</div>
-                    <div class="checked">
-                        <input type="checkbox" id="checked" />checked
-                    </div>
-                    <div class="edit">
-                        <button class="edit-button">edit</button>
-                    </div>
-                    <div class="delete">
-                        <button class="delete-button">delete</button>
-                    </div>
-                </div>
+            <div class="list" id="todoList">
+                
+                
             </div>
         </div>
         <style></style>
-        <script src="todo.js"></script>
+
         <script src="action.js"></script>
     </body>
 </html>
