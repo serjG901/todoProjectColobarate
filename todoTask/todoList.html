@@ -1,11 +1,12 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
     <head>
+        <title>my_todo_list</title>
         <link rel="stylesheet" href="style.css" />
     </head>
     <body>
         <div class="main">
-            <div class="header-name"><b>my_todo_list</b></div>
+            <div class="header-name">my_todo_list</div>
             <div class="todo-send">
                 <input
                     class="todo-send-input"
@@ -18,9 +19,9 @@
                 </button>
             </div>
             <div class="filter">
-                <div><button class="activ" onclick="clickButton('allTodo')">all todo</button></div>
-                <div><button>checked</button></div>
-                <div><button>unchecked</button></div>
+                <div class="filter-option"><button class="filter-option-button active-filter" onclick="clickButton('allTodo')">all todo</button></div>
+                <div class="filter-option"><button class="filter-option-button">checked</button></div>
+                <div class="filter-option"><button class="filter-option-button">unchecked</button></div>
             </div>
             <div class="list" id="todoList">
                 
