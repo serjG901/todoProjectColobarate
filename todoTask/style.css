@@ -133,6 +133,9 @@ button:hover {
     color: lightgreen;
     flex: 1 1 0;
 }
+.todo-checked-label:hover {
+    cursor: pointer;
+}
 .todo-edit {
     margin: 0 20px;
     flex: 1 1 0;
