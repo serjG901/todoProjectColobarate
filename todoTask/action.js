@@ -1,5 +1,5 @@
 ﻿let globalID = 0;
-const todoList = document.getElementById("todoList");
+const todosList = document.getElementById("todosList");
 const addTitle = document.getElementById("addTitle");
 const addButton = document.getElementById("addButton");
 const todoTemplate = (title) => {
@@ -80,7 +80,7 @@ const editOk = (id) => {
 
 const addTodoInList = () => {
     if (addTitle.value !== "") {
-        todoList.prepend(todoTemplate(addTitle.value));
+        todosList.prepend(todoTemplate(addTitle.value));
         addTitle.value = "";
     }
 };
