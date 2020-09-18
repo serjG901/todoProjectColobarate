@@ -3,7 +3,7 @@ let globalID = 0;
 // -------------------------functions---------------------------
 const getId = () => (globalID += 1);
 
-const makeTodo = (title, text, complete) => {
+const makeTodo = (title, complete) => {
     return {
         id: getId(),
         title,
