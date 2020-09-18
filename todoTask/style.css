@@ -96,7 +96,7 @@ button:hover {
     color: lawngreen;
     border: 1px solid lawngreen;
 }
-.list {
+.todos-list {
     display: flex;
     justify-content: center;
     top: 130px;
