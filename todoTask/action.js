@@ -1,8 +1,5 @@
 ﻿let globalID = 0;
-const getID = () => {
-    globalID++;
-    return globalID;
-};
+const getID = () => (globalID += 1);
 
 const addTitle = document.getElementById("addTitle");
 const addButton = document.getElementById("addButton");
