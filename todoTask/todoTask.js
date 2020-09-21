@@ -10,7 +10,7 @@ const createTodo = (title, complete = false) => ({
 });
 
 const createTodos = (count) =>
-    Array.from({ length: count }, (i) => createTodo(`title${i}`));
+    Array.from({ length: count }, (value, i) => createTodo(`title${i}`));
 
 const addTodo = (todos, newTodo) => [...todos, newTodo];
 
