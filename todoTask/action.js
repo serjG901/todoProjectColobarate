@@ -21,7 +21,7 @@ const addTodoInList = () => {
     }
 };
 
-const todoTemplate = (title) => {
+const todoTemplate = (title, complete = false) => {
     const todoID = getID();
     const todo = document.createElement("div");
     todo.className = "todo";
@@ -35,6 +35,7 @@ const todoTemplate = (title) => {
                             type="checkbox"
                             class="todo-checked-label"
                             id="checked${todoID}"
+                            ${complete && "checked"}
                             onclick="checkTitle(${todoID})"
                         />
                         <label
