@@ -49,7 +49,7 @@ const main = async () => {
         isLoading: false,
     };
     // TODO: render(state);
-    const updatedTodos = addTodo(todos, createTodo("New item"));
+    const updatedTodos = addTodo(state.todos, createTodo("New item"));
     state = {
         ...state,
         todos: updatedTodos,
