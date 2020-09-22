@@ -1,8 +1,6 @@
-﻿const setState = (todos = [], loading = true, error = new Error()) => {
+﻿const setState = (todos = []) => {
     const state = {
-        todos,
-        loading,
-        error,
+        todos
     };
     localStorage.setItem("state", JSON.stringify(state));
 };
