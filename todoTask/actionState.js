@@ -47,7 +47,12 @@ const createTodo = (title, complete, todoID) => {
     };
 };
 
-const todoTemplate = (title, complete = false, todoID = getID(), isNew = true) => {
+const todoTemplate = (
+    title,
+    complete = false,
+    todoID = getID(),
+    isNew = true
+) => {
     let todoInTodos = createTodo(title, complete, todoID);
     if (isNew) {
         todos = addTodo(todos, todoInTodos);
@@ -195,20 +200,16 @@ const removeCompleted = (todos) =>
 const onlyCompleted = (todos) =>
     todos.filter((todoItem) => todoItem.complete === true);
 
-const changeTodoComplete = (todos, todoID, complete) => {
-    return todos.map((todoItem) =>
+const changeTodoComplete = (todos, todoID, complete) =>
+    todos.map((todoItem) =>
         todoItem.id === todoID ? { ...todoItem, complete } : todoItem
     );
-};
-
-const editedTodo = (todos, todoEdited) => {
-    return todos.map((todoItem) =>
+const editedTodo = (todos, todoEdited) =>
+    todos.map((todoItem) =>
         todoItem.id === todoEdited.id
             ? { ...todoItem, ...todoEdited }
             : todoItem
     );
-};
-
 const renderTodos = (todos, isNew) => {
     todos.forEach((todo) => {
         todosList.prepend(
