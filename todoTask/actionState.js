@@ -196,7 +196,7 @@ const removeCompleted = (todos) =>
     todos.filter((todoItem) => !todoItem.complete);
 
 const onlyCompleted = (todos) =>
-    todos.filter((todoItem) => todoItem.complete === true);
+    todos.filter((todoItem) => todoItem.complete);
 
 const changeTodoComplete = (todos, todoID, complete) =>
     todos.map((todoItem) =>
