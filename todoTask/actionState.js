@@ -6,7 +6,7 @@
 };
 
 const getTodos = () =>
-    localStorage.state ? JSON.parse(localStorage.state).todos : null;
+    localStorage.state ? (JSON.parse(localStorage.getItem("state"))).todos : null;
 
 const updateTodos = (todos = []) => {
     const state = { ...JSON.parse(localStorage.state), todos };
