@@ -21,17 +21,30 @@
             <div class="filter">
                 <div class="filter-option">
                     <button
+                        id="allTodos"
                         class="filter-option-button active-filter"
-                        onclick="clickButton('allTodo')"
+                        onclick="displayAllTodos()"
                     >
                         all todo
                     </button>
                 </div>
                 <div class="filter-option">
-                    <button class="filter-option-button">checked</button>
+                    <button
+                        id="allChecked"
+                        class="filter-option-button"
+                        onclick="displayOnlyCompleted()"
+                    >
+                        checked
+                    </button>
                 </div>
                 <div class="filter-option">
-                    <button class="filter-option-button">unchecked</button>
+                    <button
+                        id="allUnchecked"
+                        class="filter-option-button"
+                        onclick="displayOnlyNotCompleted()"
+                    >
+                        unchecked
+                    </button>
                 </div>
             </div>
             <div class="todos-list" id="todosList"></div>

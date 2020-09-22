@@ -33,8 +33,7 @@ const updateError = (error = new Error()) => {
 //------------------action in html----------------------
 let todos = [];
 
-let globalID = 0;
-const getID = () => (globalID += 1);
+const getID = () => Math.floor(Math.random() * 10000);
 
 const addTitle = document.getElementById("addTitle");
 const addButton = document.getElementById("addButton");
@@ -64,11 +63,13 @@ const makeTodo = (title, complete, id) => {
     };
 };
 
-const todoTemplate = (title, complete = false, id = getID()) => {
+const todoTemplate = (title, complete = false, id = getID(), all = true) => {
     const todoID = id;
     let todoInTodos = makeTodo(title, complete, id);
-    todos = addTodo(todos, todoInTodos);
-    setState(todos);
+    if (all) {
+        todos = addTodo(todos, todoInTodos);
+        setState(todos);
+    }
     const todo = document.createElement("div");
     todo.className = "todo";
     todo.id = `todo${todoID}`;
@@ -76,7 +77,7 @@ const todoTemplate = (title, complete = false, id = getID()) => {
                     <div class="todo-title" 
                         id="title${todoID}" 
                         style = "text-decoration:${
-                            complete ? 'line-through' : 'none'
+                            complete ? "line-through" : "none"
                         }">
                             ${title}
                     </div>
@@ -126,6 +127,7 @@ const checkTitle = (id) => {
         const title = document.getElementById(`title${id}`);
         title.style.textDecoration = check.checked ? "line-through" : "none";
         let newTodos = changeTodoComplete(todos, id, check.checked);
+        todos = [...newTodos];
         updateTodos(newTodos);
     }
 };
@@ -148,9 +150,10 @@ const editTitle = (id) => {
 
 const deleteTodo = (id) => {
     const todo = document.getElementById(`todo${id}`);
-    todo.remove();
     let newTodos = removeTodo(todos, id);
+    todos = [...newTodos];
     updateTodos(newTodos);
+    todo.remove();
 };
 
 const editOk = (id) => {
@@ -161,9 +164,44 @@ const editOk = (id) => {
     title.style.textDecoration = check.checked ? "line-through" : "none";
     let todoEdited = makeTodo(inputTitle.value, check.checked, id);
     let newTodos = editedTodo(todos, todoEdited);
+    todos = [...newTodos];
     updateTodos(newTodos);
 };
 
+const allTodos = document.getElementById("allTodos");
+const allChecked = document.getElementById("allChecked");
+const allUnchecked = document.getElementById("allUnchecked");
+
+const displayOnlyCompleted = () => {
+    if (
+        allTodos.classList.contains("active-filter") ||
+        allUnchecked.classList.contains("active-filter")
+    ) {
+        allTodos.classList.remove("active-filter");
+        allUnchecked.classList.remove("active-filter");
+        allChecked.classList.add("active-filter");
+    }
+    todosList.innerHTML = "";
+    let newTodos = onlyCompleted(todos);
+    renderTodos(newTodos, false);
+};
+
+const displayOnlyNotCompleted = () => {
+    allTodos.classList.remove("active-filter");
+    allChecked.classList.remove("active-filter");
+    allUnchecked.classList.add("active-filter");
+    todosList.innerHTML = "";
+    let newTodos = removeCompleted(todos);
+    renderTodos(newTodos, false);
+};
+
+const displayAllTodos = () => {
+    allUnchecked.classList.remove("active-filter");
+    allChecked.classList.remove("active-filter");
+    allTodos.classList.add("active-filter");
+    todosList.innerHTML = "";
+    renderTodos(todos, false);
+};
 //-----------do with todos []-------
 
 const addTodo = (todos, newTodo) => todos.concat(newTodo);
@@ -173,6 +211,9 @@ const removeTodo = (todos, todoId) =>
 
 const removeCompleted = (todos) =>
     todos.filter((todoItem) => !todoItem.complete);
+
+const onlyCompleted = (todos) =>
+    todos.filter((todoItem) => todoItem.complete === true);
 
 const changeTodoTitle = (todos, todoId, title) => {
     return todos.map((todoItem) =>
@@ -200,16 +241,23 @@ const editedTodo = (todos, todoEdited) => {
 
 //-------------action in state--------
 
-const renderTodos = (todos) => {
+const renderTodos = (todos, all) => {
     todos.forEach((todo) => {
-        todosList.prepend(todoTemplate(todo.title, todo.complete, todo.id));
+        todosList.prepend(
+            todoTemplate(todo.title, todo.complete, todo.id, all)
+        );
     });
 };
 
-let todosInState = getTodos();
+const ready = () => {
+    let todosInState = getTodos();
 
-if (todosInState) {
-    renderTodos(todosInState);
-} else {
-    setState();
-}
+    if (todosInState) {
+        renderTodos(todosInState);
+        todos = [...todosInState];
+    } else {
+        setState();
+    }
+};
+
+document.addEventListener("DOMContentLoaded", ready);
