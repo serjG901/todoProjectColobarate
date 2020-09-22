@@ -1,12 +1,12 @@
 ﻿const setState = (todos = []) => {
     const state = {
-        todos
+        todos,
     };
     localStorage.setItem("state", JSON.stringify(state));
 };
 
 const getTodos = () =>
-    localStorage.state ? (JSON.parse(localStorage.getItem("state"))).todos : null;
+    localStorage.state ? JSON.parse(localStorage.getItem("state")).todos : null;
 
 const updateTodos = (todos = []) => {
     const state = { ...JSON.parse(localStorage.state), todos };
