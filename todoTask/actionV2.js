@@ -12,7 +12,8 @@ const templateNameApp = (name) => {
 
 const templateInputAddTodo = () => {
     return `<form onsubmit="onAddTodo(this, event)"
-                class="todo-send">
+                class="todo-send"
+                id="addTodo">
                 <input name="title"
                     class="todo-send-input"
                     type="text"
@@ -21,6 +22,7 @@ const templateInputAddTodo = () => {
                     autofocus
                 />
                 <button type="submit"
+                    form="addTodo"
                     class="todo-send-button" 
                     id="addButton">
                     add todo
@@ -32,7 +34,6 @@ const templateFilterTodos = (filter) => {
     return `<div class="filter">
                 <div class="filter-option">
                     <button
-                        id="showAllTodos"
                         class="filter-option-button ${
                             filter === null ? "active-filter" : ""
                         }"
@@ -43,7 +44,6 @@ const templateFilterTodos = (filter) => {
                 </div>
                 <div class="filter-option">
                     <button
-                        id="showCheckedTodos"
                         class="filter-option-button ${
                             filter === "checked" ? "active-filter" : ""
                         }"
@@ -54,7 +54,6 @@ const templateFilterTodos = (filter) => {
                 </div>
                 <div class="filter-option">
                     <button
-                        id="showUncheckedTodos"
                         class="filter-option-button ${
                             filter === "unchecked" ? "active-filter" : ""
                         }"
@@ -73,13 +72,14 @@ const templateTodoTitle = (todoID, title, checked, isEdit = false) => {
                 style = "text-decoration:${
                     checked && !isEdit ? "line-through" : "none"
                 }"
+                name="title${todoID}"
             >
                 ${isEdit ? templateTodoInEdit(todoID, title) : title}
             </form>`;
 };
 
 const templateTodoInEdit = (todoID, title) => {
-    return `<input onchange="onChangeEditTodo(${todoID})"
+    return `<input onchange="onChangeEditedTodo(${todoID})"
                 name="title"
                 class="todo-title" 
                 id="input${todoID}"
@@ -87,7 +87,8 @@ const templateTodoInEdit = (todoID, title) => {
             >
             </input>
             <button type="submit"
-                class="edit-button" 
+                class="edit-button"
+                form="title${todoID}" 
             >
                 Ok
             </button>`;
@@ -154,10 +155,12 @@ const templateTodoList = ({ todos, inEdit, filter }) => {
             : filter === "unchecked"
             ? getUncheckedTodo(todos)
             : todos;
+
     return `
             ${templateNameApp("my_todo_list")}
             ${templateInputAddTodo()}
             ${templateFilterTodos(filter)}
+
             <div class="todos-list" id="todosList">
             ${todos.map((todo) => templateTodo(todo, inEdit)).join("")}
             </div>
@@ -222,7 +225,6 @@ const onEditTodo = (todoID) => {
 };
 
 const onSaveEditedTodo = (formElement, event, todoID) => {
-    console.log(todoID);
     event.preventDefault();
     const title = getFormData(formElement)["title"];
     let state = getState();
@@ -233,7 +235,7 @@ const onSaveEditedTodo = (formElement, event, todoID) => {
     setState(state);
 };
 
-const onChangeEditTodo = (todoID) => {
+const onChangeEditedTodo = (todoID) => {
     const title = document.getElementById(`input${todoID}`).value;
     let state = getState();
     const todoEdited = state.todos.find((todo) => todo.todoID === todoID);
