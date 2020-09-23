@@ -1,9 +1,7 @@
-﻿const templateNameApp = (name) => {
-    return `<div class="header-name">${name}</div>`;
-};
+﻿const templateNameApp = (name) => `<div class="header-name">${name}</div>`;
 
-const templateInputAddTodo = () => {
-    return `<form onsubmit="onAddTodo(this, event)"
+const templateInputAddTodo = () =>
+            `<form onsubmit="onAddTodo(this, event)"
                 class="todo-send"
                 id="addTodo">
                 <input name="title"
@@ -20,10 +18,9 @@ const templateInputAddTodo = () => {
                     add todo
                 </button>
             </form>`;
-};
 
-const templateFilterTodos = (filter) => {
-    return `<div class="filter">
+const templateFilterTodos = (filter) => 
+            `<div class="filter">
                 <div class="filter-option">
                     <button
                         class="filter-option-button ${
@@ -55,10 +52,9 @@ const templateFilterTodos = (filter) => {
                     </button>
                 </div>
             </div>`;
-};
 
-const templateTodoTitle = (todoID, title, checked, isEdit = false) => {
-    return `<form onsubmit="onSaveEditedTodo(this, event, ${todoID})"
+const templateTodoTitle = (todoID, title, checked, isEdit = false) => 
+            `<form onsubmit="onSaveEditedTodo(this, event, ${todoID})"
                 class="todo-title" 
                 id="title${todoID}" 
                 style = "text-decoration:${
@@ -68,10 +64,9 @@ const templateTodoTitle = (todoID, title, checked, isEdit = false) => {
             >
                 ${isEdit ? templateTodoInEdit(todoID, title) : title}
             </form>`;
-};
 
-const templateTodoInEdit = (todoID, title) => {
-    return `<input onchange="onChangeEditedTodo(${todoID})"
+const templateTodoInEdit = (todoID, title) => 
+            `<input onchange="onChangeEditedTodo(${todoID})"
                 name="title"
                 class="todo-title" 
                 id="input${todoID}"
@@ -84,10 +79,9 @@ const templateTodoInEdit = (todoID, title) => {
             >
                 Ok
             </button>`;
-};
 
-const templateTodoCheckedInput = (todoID, checked) => {
-    return `<div class="todo-checked">
+const templateTodoCheckedInput = (todoID, checked) => 
+            `<div class="todo-checked">
                 <input
                     type="checkbox"
                     class="todo-checked-label"
@@ -103,10 +97,9 @@ const templateTodoCheckedInput = (todoID, checked) => {
                     checked
                 </label>
             </div>`;
-};
 
-const templateTodoEditButton = (todoID) => {
-    return `<div class="todo-edit">
+const templateTodoEditButton = (todoID) => 
+            `<div class="todo-edit">
                 <button
                     class="edit-button"
                     id="edit${todoID}"
@@ -115,10 +108,9 @@ const templateTodoEditButton = (todoID) => {
                     edit
                 </button>
             </div>`;
-};
 
-const templateTodoDeleteButton = (todoID) => {
-    return `<div class="todo-delete">
+const templateTodoDeleteButton = (todoID) => 
+            `<div class="todo-delete">
                 <button
                     class="delete-button"
                     id="delete${todoID}"
@@ -127,18 +119,16 @@ const templateTodoDeleteButton = (todoID) => {
                     delete
                 </button>
             </div>`;
-};
 
 const isEdit = (todoID, inEdit) => inEdit.includes(todoID);
 
-const templateTodo = ({ todoID, title, checked }, inEdit) => {
-    return `<div class="todo" id="${todoID}">
+const templateTodo = ({ todoID, title, checked }, inEdit) => 
+    `<div class="todo" id="${todoID}">
             ${templateTodoTitle(todoID, title, checked, isEdit(todoID, inEdit))}
             ${templateTodoCheckedInput(todoID, checked)}
             ${templateTodoEditButton(todoID)} 
             ${templateTodoDeleteButton(todoID)}
             </div>`;
-};
 
 const getUncheckedTodo = (todos) =>
     todos.filter((todoItem) => !todoItem.checked);
