@@ -1,25 +1,4 @@
-﻿let stateSession = {};
-
-const getState = () => stateSession;
-
-const setState = (newState) => {
-    stateSession = newState;
-    saveData();
-    render(stateSession);
-};
-
-const setStateNotRender = (newState) => {
-    stateSession = newState;
-};
-
-const setLocalStorageState = (newState) => {
-    localStorage.setItem("state", JSON.stringify(newState));
-};
-
-const getLocalStorageState = () =>
-    localStorage.state ? JSON.parse(localStorage.getItem("state")) : null;
-
-const templateNameApp = (name) => {
+﻿const templateNameApp = (name) => {
     return `<div class="header-name">${name}</div>`;
 };
 
@@ -290,6 +269,27 @@ const showUncheckedTodos = () => {
     setState(state);
 };
 
+let stateSession = {};
+
+const getState = () => stateSession;
+
+const setState = (newState) => {
+    stateSession = newState;
+    setLocalStorageState(stateSession);
+    render(stateSession);
+};
+
+const setStateNotRender = (newState) => {
+    stateSession = newState;
+};
+
+const setLocalStorageState = (newState) => {
+    localStorage.setItem("state", JSON.stringify(newState));
+};
+
+const getLocalStorageState = () =>
+    localStorage.state ? JSON.parse(localStorage.getItem("state")) : null;
+
 const ready = () => {
     let state = getLocalStorageState();
 
@@ -306,10 +306,4 @@ const ready = () => {
     }
 };
 
-const saveData = () => {
-    setLocalStorageState(stateSession);
-};
-
 document.addEventListener("DOMContentLoaded", ready);
-
-window.addEventListener("beforeunload", saveData);
