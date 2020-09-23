@@ -152,7 +152,7 @@ const templateTodo = ({ todoID, title, checked }, inEdit) => {
             </div>`;
 };
 
-const templateTodoList = ({ todos, inEdit, filter }) => {
+const templateTodoApp = ({ todos, inEdit, filter }) => {
     todos =
         filter === "checked"
             ? getCheckedTodo(todos)
@@ -174,7 +174,7 @@ const templateTodoList = ({ todos, inEdit, filter }) => {
 
 const render = (state) => {
     const app = document.getElementById("app");
-    app.innerHTML = templateTodoList(state);
+    app.innerHTML = templateTodoApp(state);
 };
 
 const getFormData = (formElement) => {
