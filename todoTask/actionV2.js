@@ -254,6 +254,7 @@ const removeTodo = (todos, todoID) =>
 const onDeleteTodo = (todoID) => {
     let state = getState();
     state.todos = removeTodo(state.todos, todoID);
+    state.inEdit = state.inEdit.filter((id) => id !== todoID);
     setState(state);
 };
 
