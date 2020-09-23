@@ -78,7 +78,8 @@ const templateTodoTitle = (todoID, title, checked, isEdit = false) => {
 };
 
 const templateTodoInEdit = (todoID, title) => {
-    return `<input name="title"
+    return `<input onchange="onChangeEditTodo(${todoID})"
+                name="title"
                 class="todo-title" 
                 id="input${todoID}"
                 value="${title}"
@@ -220,13 +221,23 @@ const onEditTodo = (todoID) => {
 };
 
 const onSaveEditedTodo = (formElement, event, todoID) => {
+    console.log(todoID);
     event.preventDefault();
     const title = getFormData(formElement)["title"];
     let state = getState();
     const todoEdited = state.todos.find((todo) => todo.todoID === todoID);
     todoEdited.title = title;
     state.todos = saveEditedTodo(state.todos, todoEdited);
-    state.inEdit = state.inEdit.filter((todoID) => todoID !== todoID);
+    state.inEdit = state.inEdit.filter((id) => id !== todoID);
+    setState(state);
+};
+
+const onChangeEditTodo = (todoID) => {
+    const title = document.getElementById(`input${todoID}`).value;
+    let state = getState();
+    const todoEdited = state.todos.find((todo) => todo.todoID === todoID);
+    todoEdited.title = title;
+    state.todos = saveEditedTodo(state.todos, todoEdited);
     setState(state);
 };
 
