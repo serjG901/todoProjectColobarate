@@ -1,13 +1,21 @@
-﻿const setState = (state) => {
-    localStorage.setItem("state", JSON.stringify(state));
-    render(state);
+﻿let stateSession = {};
+
+const getState = () => stateSession;
+
+const setState = (newState) => {
+    stateSession = newState;
+    render(stateSession);
 };
 
-const setStateNotRender = (state) => {
-    localStorage.setItem("state", JSON.stringify(state));
+const setStateNotRender = (newState) => {
+    stateSession = newState;
 };
 
-const getState = () =>
+const setLocalStorageState = (newState) => {
+    localStorage.setItem("state", JSON.stringify(newState));
+};
+
+const getLocalStorageState = () =>
     localStorage.state ? JSON.parse(localStorage.getItem("state")) : null;
 
 const templateNameApp = (name) => {
@@ -282,7 +290,7 @@ const showUncheckedTodos = () => {
 };
 
 const ready = () => {
-    let state = getState();
+    let state = getLocalStorageState();
 
     if (state) {
         setState(state);
@@ -292,8 +300,15 @@ const ready = () => {
             inEdit: [],
             filter: null,
         };
-        setState(state);
+        setLocalStorageState(state);
+        ready();
     }
 };
 
+const saveData = () => {
+    setLocalStorageState(stateSession);
+};
+
 document.addEventListener("DOMContentLoaded", ready);
+
+window.addEventListener("beforeunload", saveData);
