@@ -4,6 +4,7 @@ const getState = () => stateSession;
 
 const setState = (newState) => {
     stateSession = newState;
+    saveData();
     render(stateSession);
 };
 
