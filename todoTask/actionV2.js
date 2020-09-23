@@ -18,6 +18,7 @@ const templateInputAddTodo = () => {
                     type="text"
                     id="addTitle"
                     placeholder="what to do?"
+                    autofocus
                 />
                 <button type="submit"
                     class="todo-send-button" 
