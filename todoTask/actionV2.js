@@ -3,6 +3,10 @@
     render(state);
 };
 
+const setStateNotRender = (state) => {
+    localStorage.setItem("state", JSON.stringify(state));
+};
+
 const getState = () =>
     localStorage.state ? JSON.parse(localStorage.getItem("state")) : null;
 
@@ -241,7 +245,7 @@ const onChangeEditedTodo = (todoID) => {
     const todoEdited = state.todos.find((todo) => todo.todoID === todoID);
     todoEdited.title = title;
     state.todos = saveEditedTodo(state.todos, todoEdited);
-    setState(state);
+    setStateNotRender(state);
 };
 
 const removeTodo = (todos, todoID) =>
