@@ -285,7 +285,7 @@ const ready = () => {
     let state = getState();
 
     if (state) {
-        render(state);
+        setState(state);
     } else {
         const state = {
             todos: [],
@@ -293,7 +293,6 @@ const ready = () => {
             filter: null,
         };
         setState(state);
-        ready();
     }
 };
 
