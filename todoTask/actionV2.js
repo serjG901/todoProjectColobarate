@@ -152,6 +152,11 @@ const templateTodo = ({ todoID, title, checked }, inEdit) => {
             </div>`;
 };
 
+const getUncheckedTodo = (todos) =>
+    todos.filter((todoItem) => !todoItem.checked);
+
+const getCheckedTodo = (todos) => todos.filter((todoItem) => todoItem.checked);
+
 const templateTodoApp = ({ todos, inEdit, filter }) => {
     todos =
         filter === "checked"
@@ -257,11 +262,6 @@ const onDeleteTodo = (todoID) => {
     state.inEdit = state.inEdit.filter((id) => id !== todoID);
     setState(state);
 };
-
-const getUncheckedTodo = (todos) =>
-    todos.filter((todoItem) => !todoItem.checked);
-
-const getCheckedTodo = (todos) => todos.filter((todoItem) => todoItem.checked);
 
 const showAllTodos = () => {
     let state = getState();
