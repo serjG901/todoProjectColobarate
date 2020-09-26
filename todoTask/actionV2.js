@@ -54,16 +54,17 @@ const templateFilterTodos = (filter) =>
             </div>`;
 
 const templateTodoTitle = (todoID, title, checked, isEdit = false) =>
-    `<form onsubmit="onSaveEditedTodo(this, event, ${todoID})"
-                class="todo-title" 
-                id="title${todoID}" 
-                style = "text-decoration:${
-                    checked && !isEdit ? "line-through" : "none"
-                }"
-                name="title${todoID}"
-            >
-                ${isEdit ? templateTodoInEdit(todoID, title) : title}
-            </form>`;
+    `<form onsubmit="onSaveEditedTodo(this, event, ${todoID})" 
+            onclick="onEditTodo(${todoID})"
+            class="todo-title ${checked ? "done-todo" : "active-todo"}" 
+            id="title${todoID}" 
+            style = "text-decoration:${
+                checked && !isEdit ? "line-through" : "none"
+            }"
+            name="title${todoID}"
+        >
+            ${isEdit ? templateTodoInEdit(todoID, title) : title}
+    </form>`;
 //
 const templateTodoInEdit = (todoID, title) =>
     `<input onchange="onChangeEditedTodo(this, ${todoID})"
@@ -142,10 +143,14 @@ const templateFooter = (todos) =>
     </div>`;
 
 const templateCounterUnchecked = (count) =>
-    `<div class="counter-unchecked">Active todo - ${count}</div>`;
+    `<div class="counter-unchecked">active todo - ${count}</div>`;
 
 const templateUndoRedo = () =>
-    `<div><button class="app-footer-button" onclick="onUndo()">Undo</button><button class="app-footer-button" onclick="onRedo()">Redo</button></div>`;
+    `<div>
+        <button class="app-footer-button" onclick="onUndo()">undo</button>
+        <button class="app-footer-button" onclick="onSave()">save</button>
+        <button class="app-footer-button" onclick="onRedo()">redo</button>
+    </div>`;
 
 const getUncheckedTodo = (todos) =>
     todos.filter((todoItem) => !todoItem.checked);
@@ -198,11 +203,13 @@ const addTodoInState = (todos, newTodo) => (todos = todos.concat(newTodo));
 const onAddTodo = (formElement, event) => {
     event.preventDefault();
     const title = getFormData(formElement)["title"];
-    const newTodo = createTodo(title);
-    let state = getState();
-    state.todos = addTodoInState(state.todos, newTodo);
-    history.setNewState(state);
-    setState();
+    if (title !== "") {
+        const newTodo = createTodo(title);
+        let state = getState();
+        state.todos = addTodoInState(state.todos, newTodo);
+        history.setNewState(state);
+        setState();
+    }
 };
 
 const saveEditedTodo = (todos, todoEdited) =>
@@ -223,9 +230,11 @@ const onCheckTodo = (todoID) => {
 
 const onEditTodo = (todoID) => {
     let state = getState();
-    state.inEdit = state.inEdit.concat(todoID);
-    history.setNewState(state);
-    setState();
+    if (!state.inEdit.includes(todoID)) {
+        state.inEdit = state.inEdit.concat(todoID);
+        history.setNewState(state);
+        setState();
+    }
 };
 
 const onSaveEditedTodo = (formElement, event, todoID) => {
@@ -291,12 +300,16 @@ const onRedo = () => {
     setState();
 };
 
+const onSave = () => {
+    history.setLength();
+};
+
 let stateSession = {};
 
 let history = {
     allState: [],
     cursor: -1,
-    length: 0,
+    length: -1,
     getCursor: function () {
         return this.cursor;
     },
@@ -305,14 +318,17 @@ let history = {
     },
     setNewState: function (newState) {
         this.cursor += 1;
-        this.length = this.cursor + 1;
+        this.length = this.cursor;
         this.allState = this.allState.slice(0, this.cursor).concat(newState);
     },
     undoHistory: function () {
         if (this.cursor > 0) this.cursor -= 1;
     },
     redoHistory: function () {
-        if (this.cursor < this.length - 1) this.cursor += 1;
+        if (this.cursor < this.length) this.cursor += 1;
+    },
+    setLength: function () {
+        this.length = this.cursor;
     },
 };
 

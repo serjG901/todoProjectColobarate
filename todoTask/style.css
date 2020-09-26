@@ -1,6 +1,6 @@
 ﻿body {
     margin: 0;
-    background-color: #666;
+    background-color: #000;
     font-family: monospace;
 }
 button {
@@ -20,23 +20,20 @@ button:hover {
     background-color: #cccccc;
 }
 .header-name {
-    display: flex;
-    justify-content: center;
+    display: flex;  
     height: 50px;
     background-color: #000;
     top: 0px;
     width: 100%;
     position: fixed;
     align-items: center;
-    color: #fff;
+    color: lawngreen;
     font-size: 1.5rem;
-    font-weight: bold;
 }
 .todo-send {
     display: flex;
     justify-content: center;
     height: 30px;
-    background-color: #999999;
     top: 50px;
     width: 100%;
     position: fixed;
@@ -47,6 +44,9 @@ button:hover {
     font-size: 1rem;
     text-align: center;
     font-family: monospace;
+    background-color: lawngreen;
+    color: lawngreen;
+    border: none;
 }
 .todo-send-button {
     display: flex;
@@ -110,21 +110,20 @@ button:hover {
 .todo {
     display: flex;
     justify-content: center;
-    background-color: #666;
-    border: 2px solid #000;
+    background-color: #000;
+    border: none;
     padding: 10px;
     color: #fff;
     align-items: center;
 }
 .todo-title {
-    font-size: 1rem;
     display: flex;
-    justify-content: center;
     flex: 5 1 70%;
-    text-align: center;
+    text-align: left;
     font-family: monospace;
     word-break: break-all;
     border: none;
+    padding: 0;
 }
 .edit-button {
     word-break: normal;
@@ -138,6 +137,14 @@ button:hover {
 }
 .todo-checked-label:hover {
     cursor: pointer;
+}
+.active-todo {
+   
+    color: lawngreen;
+}
+.done-todo {
+    
+    color:lawngreen;
 }
 .todo-edit {
     margin: 0 20px;
@@ -170,12 +177,12 @@ button:hover {
     border: 1px solid #fff;
 }
 .counter-unchecked {
-    color: red;
+    color: lawngreen;
 }
 .app-footer {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    flex-direction: row-reverse;
+    justify-content: space-around;
     height: 50px;
     background-color: #000;
     bottom: 0px;
@@ -183,9 +190,19 @@ button:hover {
     position: fixed;
     align-items: center;
     color: #fff;
-    font-size: 1.5rem;
-    font-weight: bold;
+    font-size: 1rem;
+    font-family: monospace;
 }
 .app-footer-button {
 margin: 0 10px;
+    background-color: #000;
+    color: #fff;
+    border: 1px solid #000;
+}
+.app-footer-button:hover {
+    border: 1px solid #fff;
+}
+.app-footer-button:active {
+    color: lawngreen;
+    border: 1px solid lawngreen;
 }
