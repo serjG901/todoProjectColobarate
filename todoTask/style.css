@@ -169,3 +169,23 @@ button:hover {
 .delete-button:active {
     border: 1px solid #fff;
 }
+.counter-unchecked {
+    color: red;
+}
+.app-footer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 50px;
+    background-color: #000;
+    bottom: 0px;
+    width: 100%;
+    position: fixed;
+    align-items: center;
+    color: #fff;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+.app-footer-button {
+margin: 0 10px;
+}
