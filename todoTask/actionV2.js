@@ -1,7 +1,7 @@
 ﻿const templateNameApp = (name) => `<div class="header-name">${name}</div>`;
 
 const templateInputAddTodo = () =>
-            `<form onsubmit="onAddTodo(this, event)"
+    `<form onsubmit="onAddTodo(this, event)"
                 class="todo-send"
                 id="addTodo">
                 <input name="title"
@@ -19,8 +19,8 @@ const templateInputAddTodo = () =>
                 </button>
             </form>`;
 
-const templateFilterTodos = (filter) => 
-            `<div class="filter">
+const templateFilterTodos = (filter) =>
+    `<div class="filter">
                 <div class="filter-option">
                     <button
                         class="filter-option-button ${
@@ -53,8 +53,8 @@ const templateFilterTodos = (filter) =>
                 </div>
             </div>`;
 
-const templateTodoTitle = (todoID, title, checked, isEdit = false) => 
-            `<form onsubmit="onSaveEditedTodo(this, event, ${todoID})"
+const templateTodoTitle = (todoID, title, checked, isEdit = false) =>
+    `<form onsubmit="onSaveEditedTodo(this, event, ${todoID})"
                 class="todo-title" 
                 id="title${todoID}" 
                 style = "text-decoration:${
@@ -65,8 +65,8 @@ const templateTodoTitle = (todoID, title, checked, isEdit = false) =>
                 ${isEdit ? templateTodoInEdit(todoID, title) : title}
             </form>`;
 
-const templateTodoInEdit = (todoID, title) => 
-            `<input onchange="onChangeEditedTodo(${todoID})"
+const templateTodoInEdit = (todoID, title) =>
+    `<input onchange="onChangeEditedTodo(this,${todoID})"
                 name="title"
                 class="todo-title" 
                 id="input${todoID}"
@@ -80,13 +80,13 @@ const templateTodoInEdit = (todoID, title) =>
                 Ok
             </button>`;
 
-const templateTodoCheckedInput = (todoID, checked) => 
-            `<div class="todo-checked">
+const templateTodoCheckedInput = (todoID, checked) =>
+    `<div class="todo-checked">
                 <input
                     type="checkbox"
                     class="todo-checked-label"
                     id="checked${todoID}"
-                    ${checked && "checked"}
+                    ${checked ? "checked" : ""}
                     onclick="onCheckTodo(${todoID})"
                 />
                 <label
@@ -98,8 +98,8 @@ const templateTodoCheckedInput = (todoID, checked) =>
                 </label>
             </div>`;
 
-const templateTodoEditButton = (todoID) => 
-            `<div class="todo-edit">
+const templateTodoEditButton = (todoID) =>
+    `<div class="todo-edit">
                 <button
                     class="edit-button"
                     id="edit${todoID}"
@@ -109,8 +109,8 @@ const templateTodoEditButton = (todoID) =>
                 </button>
             </div>`;
 
-const templateTodoDeleteButton = (todoID) => 
-            `<div class="todo-delete">
+const templateTodoDeleteButton = (todoID) =>
+    `<div class="todo-delete">
                 <button
                     class="delete-button"
                     id="delete${todoID}"
@@ -120,9 +120,24 @@ const templateTodoDeleteButton = (todoID) =>
                 </button>
             </div>`;
 
+const templateCounterUnchecked = (count) =>
+    `<div class="counter-unchecked">Active todo - ${count}</div>`;
+
+const onUndo = () => {
+    let state = getState();
+    state.undoStack.pop();
+    setState({
+        ...state.undoStack[state.undoStack.length - 1],
+        undoStack: state.undoStack,
+    });
+};
+
+const templateUndoRedo = () =>
+    `<div><button onclick="onUndo()">Undo</button><button onclick="onRedo()">Redo</button></div>`;
+
 const isEdit = (todoID, inEdit) => inEdit.includes(todoID);
 
-const templateTodo = ({ todoID, title, checked }, inEdit) => 
+const templateTodo = ({ todoID, title, checked }, inEdit) =>
     `<div class="todo" id="${todoID}">
             ${templateTodoTitle(todoID, title, checked, isEdit(todoID, inEdit))}
             ${templateTodoCheckedInput(todoID, checked)}
@@ -136,7 +151,7 @@ const getUncheckedTodo = (todos) =>
 const getCheckedTodo = (todos) => todos.filter((todoItem) => todoItem.checked);
 
 const templateTodoApp = ({ todos, inEdit, filter }) => {
-    todos =
+    const filterTodos =
         filter === "checked"
             ? getCheckedTodo(todos)
             : filter === "unchecked"
@@ -149,8 +164,11 @@ const templateTodoApp = ({ todos, inEdit, filter }) => {
             ${templateFilterTodos(filter)}
 
             <div class="todos-list" id="todosList">
-            ${todos.map((todo) => templateTodo(todo, inEdit)).join("")}
+            ${filterTodos.map((todo) => templateTodo(todo, inEdit)).join("")}
+            ${templateCounterUnchecked(getUncheckedTodo(todos).length)}
+            ${templateUndoRedo()}
             </div>
+            
             
             `;
 };
@@ -169,7 +187,7 @@ const getFormData = (formElement) => {
     return data;
 };
 
-const getID = () => Math.floor(Math.random() * 100000);
+const getID = () => Math.floor(Math.random() * 1000000);
 
 const createTodo = (title) => {
     return {
@@ -187,7 +205,7 @@ const onAddTodo = (formElement, event) => {
     const newTodo = createTodo(title);
     let state = getState();
     state.todos = addTodoInState(state.todos, newTodo);
-    setState(state);
+    setStateAction(state);
 };
 
 const saveEditedTodo = (todos, todoEdited) =>
@@ -200,15 +218,19 @@ const saveEditedTodo = (todos, todoEdited) =>
 const onCheckTodo = (todoID) => {
     let state = getState();
     const todoEdited = state.todos.find((todo) => todo.todoID === todoID);
-    todoEdited.checked = !todoEdited.checked;
-    state.todos = saveEditedTodo(state.todos, todoEdited);
-    setState(state);
+
+    const todoUpdate = { ...todoEdited, checked: !todoEdited.checked };
+
+    state.todos = saveEditedTodo(state.todos, todoUpdate);
+    setStateAction(state);
 };
 
 const onEditTodo = (todoID) => {
     let state = getState();
-    state.inEdit.push(todoID);
-    setState(state);
+
+    state.inEdit.push(todoID);///
+
+    setStateAction(state);
 };
 
 const onSaveEditedTodo = (formElement, event, todoID) => {
@@ -219,11 +241,11 @@ const onSaveEditedTodo = (formElement, event, todoID) => {
     todoEdited.title = title;
     state.todos = saveEditedTodo(state.todos, todoEdited);
     state.inEdit = state.inEdit.filter((id) => id !== todoID);
-    setState(state);
+    setStateAction(state);
 };
 
-const onChangeEditedTodo = (todoID) => {
-    const title = document.getElementById(`input${todoID}`).value;
+const onChangeEditedTodo = (newTitle, todoID) => {
+    const title = newTitle.value;
     let state = getState();
     const todoEdited = state.todos.find((todo) => todo.todoID === todoID);
     todoEdited.title = title;
@@ -238,30 +260,36 @@ const onDeleteTodo = (todoID) => {
     let state = getState();
     state.todos = removeTodo(state.todos, todoID);
     state.inEdit = state.inEdit.filter((id) => id !== todoID);
-    setState(state);
+    setStateAction(state);
 };
 
 const showAllTodos = () => {
     let state = getState();
     state.filter = null;
-    setState(state);
+    setStateAction(state);
 };
 
 const showCheckedTodos = () => {
     let state = getState();
     state.filter = "checked";
-    setState(state);
+    setStateAction(state);
 };
 
 const showUncheckedTodos = () => {
     let state = getState();
     state.filter = "unchecked";
-    setState(state);
+    setStateAction(state);
 };
 
 let stateSession = {};
 
-const getState = () => stateSession;
+const getState = () => ({...stateSession});
+
+const setStateAction = (newState) => {
+    const { undoStack, ...allState } = newState;
+    newState.undoStack.push(allState);
+    setState(newState);
+};
 
 const setState = (newState) => {
     stateSession = newState;
@@ -284,16 +312,17 @@ const ready = () => {
     let state = getLocalStorageState();
 
     if (state) {
-        setState(state);
+        setStateAction(state);
     } else {
         const state = {
             todos: [],
             inEdit: [],
             filter: null,
+            undoStack: [],
         };
         setLocalStorageState(state);
         ready();
     }
 };
 
-document.addEventListener("DOMContentLoaded", ready);
+ready();

@@ -169,3 +169,7 @@ button:hover {
 .delete-button:active {
     border: 1px solid #fff;
 }
+
+.counter-unchecked {
+    color: red;
+}
