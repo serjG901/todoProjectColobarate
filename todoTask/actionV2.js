@@ -12,9 +12,9 @@ const templateCounterUnchecked = (count) =>
 
 const templateUndoRedo = () =>
     `<div>
-        <button class="app-history-button" onclick="onUndo()">undo</button>
+        <button class="app-history-button ${history.getCursor() === 0 ? "app-history-disable" : ""}" onclick="onUndo()">undo</button>
         <button class="app-history-button" onclick="onSave()">save</button>
-        <button class="app-history-button" onclick="onRedo()">redo</button>
+        <button class="app-history-button ${history.getCursor() === history.getLength() ? "app-history-disable" : ""}" onclick="onRedo()">redo</button>
     </div>`;
 
 const templateInputAddTodo = () =>
@@ -36,17 +36,17 @@ const templateInputAddTodo = () =>
                 </button>
             </form>`;
 
-const templateFilterTodos = (filter) =>
+const templateFilterTodos = (filter, tag) =>
     `<div class="filter">
                 <input class="search-todo ${
-                    ((filter !== null) && (filter !== "checked") && (filter !== "unchecked")) ? "active-filter" : ""
+                    (tag) ? "active-filter" : ""
                 }" 
                     onchange="onFilterTag(this)" 
                     placeholder="search_todo"
-                    value="${((filter !== null) && (filter !== "checked") && (filter !== "unchecked")) ? filter : ""}">
+                    value="${(tag) ? tag : ""}">
                 </input>
                 <div class="filter-option">
-                    <button
+                    <button type="button"
                         class="filter-option-button ${
                             filter === null ? "active-filter" : ""
                         }"
@@ -56,7 +56,7 @@ const templateFilterTodos = (filter) =>
                     </button>
                 </div>
                 <div class="filter-option">
-                    <button
+                    <button type="button"
                         class="filter-option-button ${
                             filter === "checked" ? "active-filter" : ""
                         }"
@@ -66,7 +66,7 @@ const templateFilterTodos = (filter) =>
                     </button>
                 </div>
                 <div class="filter-option">
-                    <button
+                    <button type="button"
                         class="filter-option-button ${
                             filter === "unchecked" ? "active-filter" : ""
                         }"
@@ -144,12 +144,12 @@ const getUncheckedTodo = (todos) =>
 
 const getCheckedTodo = (todos) => todos.filter((todoItem) => todoItem.checked);
 
-const getTagTodos = (todos, filter) =>
+const getTagTodos = (todos, tag) =>
     todos.filter((todoItem) =>
-        todoItem.title.indexOf(filter) != -1 ? true : false
+        todoItem.title.indexOf(tag) != -1 ? true : false
     );
 
-const templateTodoApp = ({ todos, inEdit, filter }) => {
+const templateTodoApp = ({ todos, inEdit, filter, tag }) => {
     let updateTodos =
         filter === null
             ? todos
@@ -157,13 +157,13 @@ const templateTodoApp = ({ todos, inEdit, filter }) => {
             ? getCheckedTodo(todos)
             : filter === "unchecked"
             ? getUncheckedTodo(todos)
-            : getTagTodos(todos, filter);
-
+            : todos;
+    if (tag) updateTodos = getTagTodos(updateTodos, tag);
     return `
             ${templateNameApp("my_todo_list")}\
             ${templateAppHistory(todos)}
             ${templateInputAddTodo()}
-            ${templateFilterTodos(filter)}
+            ${templateFilterTodos(filter, tag)}
             ${templateTodoList(updateTodos, inEdit)}     
             `;
 };
@@ -266,7 +266,7 @@ const onDeleteTodo = (todoID) => {
 const onFilterTag = (element) => {
     const tag = element.value;
     let state = getState();
-    state.filter = tag;
+    state.tag = tag;
     history.setNewState(state);
     setState();
 };
@@ -314,6 +314,9 @@ let history = {
     length: -1,
     getCursor: function () {
         return this.cursor;
+    },
+    getLength: function () {
+        return this.length;
     },
     getState: function () {
         return this.allState[this.getCursor()];
@@ -374,6 +377,7 @@ const ready = () => {
             todos: [],
             inEdit: [],
             filter: null,
+            tag: null,
         };
         history.setNewState(initialState);
         setLocalStorageHistory(history);

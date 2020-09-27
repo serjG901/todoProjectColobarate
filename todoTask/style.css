@@ -66,29 +66,35 @@ input {
 .app-history-button:active {
     border-left: solid 16px lawngreen;
 }
+.app-history-disable {
+    color:#444;
+}
 .app-history-count {
     color: lawngreen;
     border-right: solid 16px #000;
 }
 .todo-send {
     display: flex;
-    border-left: solid 16px #141;
     height: 3rem;
     top: 6rem;
     width: 100%;
     position: fixed;
 }
-.todo-send:hover {
-    border-left: solid 16px lawngreen;
-}
 .todo-send-input {
     display: flex;
     flex: 2 1 auto;
+    cursor: pointer;
     font-family: monospace;
     background-color: #141;
     color: lawngreen;
     border: none;
-    cursor: pointer;
+    border-left: solid 16px #141;
+}
+.todo-send-input:hover {
+    border-left: solid 16px lawngreen;
+}
+.todo-send-input:active {
+    border-left: solid 16px lawngreen;
 }
 .todo-send-button {
     display: flex;
@@ -112,8 +118,9 @@ input {
     top: 9rem;
     width: 100%;
     position: fixed;
-    flex-direction: row-reverse;
+    flex-direction: row;
     padding: 4px 0;
+    justify-content: space-around;
 }
 .filter-option {
     display: flex;
