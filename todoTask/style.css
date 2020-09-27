@@ -1,22 +1,21 @@
 ﻿body {
     margin: 0;
     background-color: #000;
-    font-family: monospace; 
+    font-family: monospace;
 }
 button {
     font-family: monospace;
     border: none;
-    padding: 8px 0px;
     outline: none;
     text-align: left;
-    font-size: 1rem;
+    font-size: 1em;
 }
 button:hover {
     cursor: pointer;
 }
 input {
     outline: none;
-    font-size: 1rem;
+    font-size: 1.5rem;
 }
 .main {
     display: flex;
@@ -24,11 +23,11 @@ input {
     flex-direction: column;
     max-height: 100%;
     background-color: #cccccc;
-    font-size: 1rem;
+    font-size: 1.5rem;
 }
 .header-name {
     display: flex;
-    height: 30px;
+    height: 3rem;
     background-color: #000;
     top: 0px;
     width: 100%;
@@ -46,9 +45,9 @@ input {
     display: flex;
     flex-direction: row-reverse;
     justify-content: space-between;
-    height: 30px;
+    height: 3rem;
     background-color: #000;
-    top: 30px;
+    top: 3rem;
     width: 100%;
     position: fixed;
     align-items: center;
@@ -74,15 +73,12 @@ input {
 .todo-send {
     display: flex;
     border-left: solid 16px #141;
-    height: 30px;
-    top: 60px;
+    height: 3rem;
+    top: 6rem;
     width: 100%;
     position: fixed;
 }
 .todo-send:hover {
-    border-left: solid 16px lawngreen;
-}
-.todo-send:o {
     border-left: solid 16px lawngreen;
 }
 .todo-send-input {
@@ -110,10 +106,10 @@ input {
 }
 .filter {
     display: flex;
-    height: 34px;
+    height: 3rem;
     background-color: #000;
     color: #fff;
-    top: 90px;
+    top: 9rem;
     width: 100%;
     position: fixed;
     flex-direction: row-reverse;
@@ -141,7 +137,7 @@ input {
 .todos-list {
     display: flex;
     justify-content: center;
-    top: 126px;
+    top: 12rem;
     width: 100%;
     position: absolute;
     justify-content: center;
@@ -168,7 +164,6 @@ input {
     border-left: solid 16px #000;
     color: lawngreen;
     cursor: pointer;
-    height: 35px;
     align-items: center;
 }
 
@@ -187,7 +182,6 @@ input {
     text-align: left;
     font-family: monospace;
     word-break: break-all;
-    padding: 8px 0;
     background-color: #141;
     color: lawngreen;
     border: none;
@@ -205,7 +199,7 @@ input {
 .checked-button {
     color: lawngreen;
     background-color: #000;
-    border-right: solid 17px #000;
+    border-right: solid 15px #000;
     border-left: 16px solid #000;
 }
 .checked-button:hover {
@@ -246,7 +240,7 @@ input {
 .delete-button {
     color: red;
     background-color: #000;
-    border-right: solid 33px #000;
+    border-right: solid 43px #000;
     border-left: 16px solid #000;
 }
 .delete-button:hover {
