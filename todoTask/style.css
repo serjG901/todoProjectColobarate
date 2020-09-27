@@ -1,16 +1,22 @@
 ﻿body {
     margin: 0;
     background-color: #000;
-    font-family: monospace;
+    font-family: monospace; 
 }
 button {
     font-family: monospace;
     border: none;
-    padding: 4px;
+    padding: 8px 0px;
     outline: none;
+    text-align: left;
+    font-size: 1rem;
 }
 button:hover {
     cursor: pointer;
+}
+input {
+    outline: none;
+    font-size: 1rem;
 }
 .main {
     display: flex;
@@ -18,101 +24,137 @@ button:hover {
     flex-direction: column;
     max-height: 100%;
     background-color: #cccccc;
+    font-size: 1rem;
 }
 .header-name {
-    display: flex;  
-    height: 50px;
+    display: flex;
+    height: 30px;
     background-color: #000;
     top: 0px;
     width: 100%;
     position: fixed;
     align-items: center;
     color: lawngreen;
-    font-size: 1.5rem;
+    border-left: solid 16px #141;
+    text-decoration: none;
+}
+.header-name:hover {
+    border-left: solid 16px lawngreen;
+    cursor: pointer;
+}
+.app-history {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    height: 30px;
+    background-color: #000;
+    top: 30px;
+    width: 100%;
+    position: fixed;
+    align-items: center;
+    color: #fff;
+    font-family: monospace;
+}
+.app-history-button {
+    background-color: #000;
+    color: #fff;
+    border-left: solid 16px #000;
+    border-right: solid 16px #000;
+}
+.app-history-button:hover {
+    border-left: solid 16px #141;
+}
+.app-history-button:active {
+    border-left: solid 16px lawngreen;
+}
+.app-history-count {
+    color: lawngreen;
+    border-right: solid 16px #141;
 }
 .todo-send {
     display: flex;
-    justify-content: center;
+    border-left: solid 16px #141;
     height: 30px;
-    top: 50px;
+    top: 63px;
     width: 100%;
     position: fixed;
+}
+.todo-send:hover {
+    border-left: solid 16px lawngreen;
+}
+.todo-send:o {
+    border-left: solid 16px lawngreen;
 }
 .todo-send-input {
     display: flex;
     flex: 2 1 auto;
-    font-size: 1rem;
-    text-align: center;
     font-family: monospace;
-    background-color: lawngreen;
+    background-color: #141;
     color: lawngreen;
     border: none;
+    cursor: pointer;
 }
 .todo-send-button {
     display: flex;
     flex: 1 1 auto;
-    justify-content: center;
     align-items: center;
-    background-color: lightblue;
-    border: 1px solid lightblue;
-    color: #000;
+    background-color: #141;
+    border-left: solid 16px #141;
+    color: #fff;
 }
 .todo-send-button:hover {
-    border: 1px solid #fff;
+    border-left: solid 16px lawngreen;
 }
 .todo-send-button:active {
-    border: 1px solid lightblue;
+    border-left: solid 16px lawngreen;
 }
 .filter {
     display: flex;
-    justify-content: center;
-    justify-content: center;
-    height: 50px;
+    height: 30px;
     background-color: #000;
     color: #fff;
-    top: 80px;
+    top: 96px;
     width: 100%;
     position: fixed;
+    flex-direction: row-reverse;
 }
 .filter-option {
     display: flex;
     justify-content: center;
-    margin: 0 20px;
     align-items: center;
 }
 .filter-option-button {
     background-color: #000;
     color: #fff;
-    border: 1px solid #000;
+    border-left: solid 16px #000;
+    border-right: solid 16px #000;
 }
 .filter-option-button:hover {
-    border: 1px solid #fff;
+    border-left: solid 16px lawngreen;
 }
 .filter-option-button:active {
-    color: lawngreen;
-    border: 1px solid lawngreen;
+    border-left: solid 16px lawngreen;
 }
 .active-filter {
-    color: lawngreen;
-    border: 1px solid lawngreen;
+    border-left: solid 16px lawngreen;
 }
 .todos-list {
     display: flex;
     justify-content: center;
-    top: 130px;
+    top: 129px;
     width: 100%;
     position: absolute;
     justify-content: center;
     z-index: -1;
     background-color: #000;
-    flex-direction: column;
+    flex-direction: column-reverse;
 }
 .todo {
     display: flex;
     justify-content: center;
     background-color: #000;
     border: none;
-    padding: 10px;
+    padding: 0px;
     color: #fff;
     align-items: center;
 }
@@ -123,28 +165,65 @@ button:hover {
     font-family: monospace;
     word-break: break-all;
     border: none;
-    padding: 0;
+    border-left: solid 16px #000;
+    color: lawngreen;
+    cursor: pointer;
+    height: 35px;
+    align-items: center;
+}
+
+.todo-title:hover {
+    border-left: solid 16px lawngreen;
+}
+
+.active-input {
+    border-left: solid 16px lawngreen;
+}
+
+.todo-title-input {
+    cursor: pointer;
+    display: flex;
+    flex: 5 1 70%;
+    text-align: left;
+    font-family: monospace;
+    word-break: break-all;
+    padding: 8px 0;
+    background-color: #141;
+    color: lawngreen;
+    border: none;
 }
 .edit-button {
     word-break: normal;
 }
 .todo-checked {
-    margin: 0 20px;
     display: flex;
     justify-content: center;
-    color: lightgreen;
+    color: lawngreen;
     flex: 1 1 0;
+    border-left: 16px solid #000;
 }
-.todo-checked-label:hover {
+.checked-button {
+    color: lawngreen;
+    background-color: #000;
+    border-right: solid 17px #000;
+    border-left: 16px solid #000;
+}
+.checked-button:hover {
     cursor: pointer;
+    border-left: 16px solid #141;
+}
+.checked-button:active {
+    cursor: pointer;
+    border-left: 16px solid lawngreen;
+}
+.checked {
+    border-left: 16px solid #141;
 }
 .active-todo {
-   
     color: lawngreen;
 }
 .done-todo {
-    
-    color:lawngreen;
+    color: lawngreen;
 }
 .todo-edit {
     margin: 0 20px;
@@ -162,47 +241,17 @@ button:hover {
     border: 1px solid #fff;
 }
 .todo-delete {
-    margin: 0 20px;
     flex: 1 1 0;
 }
 .delete-button {
     color: red;
     background-color: #000;
-    border: 1px solid #000;
+    border-right: solid 33px #000;
+    border-left: 16px solid #000;
 }
 .delete-button:hover {
-    border: 1px solid red;
+    border-left: 16px solid #411;
 }
 .delete-button:active {
-    border: 1px solid #fff;
-}
-.counter-unchecked {
-    color: lawngreen;
-}
-.app-footer {
-    display: flex;
-    flex-direction: row-reverse;
-    justify-content: space-around;
-    height: 50px;
-    background-color: #000;
-    bottom: 0px;
-    width: 100%;
-    position: fixed;
-    align-items: center;
-    color: #fff;
-    font-size: 1rem;
-    font-family: monospace;
-}
-.app-footer-button {
-margin: 0 10px;
-    background-color: #000;
-    color: #fff;
-    border: 1px solid #000;
-}
-.app-footer-button:hover {
-    border: 1px solid #fff;
-}
-.app-footer-button:active {
-    color: lawngreen;
-    border: 1px solid lawngreen;
+    border-left: 16px solid red;
 }

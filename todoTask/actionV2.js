@@ -1,4 +1,20 @@
-﻿const templateNameApp = (name) => `<div class="header-name">${name}</div>`;
+﻿const templateNameApp = (name) => `<a class="header-name" href="todoListStateV2.html">${name}</a>`;
+
+const templateAppHistory = (todos) =>
+    `<div class="app-history" id="appHistory">
+        ${templateCounterUnchecked(getUncheckedTodo(todos).length)}
+        ${templateUndoRedo()}
+    </div>`;
+
+const templateCounterUnchecked = (count) =>
+    `<div class="app-history-count">active todo - ${count}</div>`;
+
+const templateUndoRedo = () =>
+    `<div>
+        <button class="app-history-button" onclick="onUndo()">undo</button>
+        <button class="app-history-button" onclick="onSave()">save</button>
+        <button class="app-history-button" onclick="onRedo()">redo</button>
+    </div>`;
 
 const templateInputAddTodo = () =>
     `<form onsubmit="onAddTodo(this, event)"
@@ -15,7 +31,7 @@ const templateInputAddTodo = () =>
                     form="addTodo"
                     class="todo-send-button" 
                     id="addButton">
-                    add todo
+                    add
                 </button>
             </form>`;
 
@@ -28,7 +44,7 @@ const templateFilterTodos = (filter) =>
                         }"
                         onclick="showAllTodos()"
                     >
-                        all todo
+                        all_todo
                     </button>
                 </div>
                 <div class="filter-option">
@@ -56,7 +72,7 @@ const templateFilterTodos = (filter) =>
 const templateTodoTitle = (todoID, title, checked, isEdit = false) =>
     `<form onsubmit="onSaveEditedTodo(this, event, ${todoID})" 
             onclick="onEditTodo(${todoID})"
-            class="todo-title ${checked ? "done-todo" : "active-todo"}" 
+            class="todo-title ${checked ? "done-todo" : "active-todo"} ${isEdit ? "active-input" : ""}" 
             id="title${todoID}" 
             style = "text-decoration:${
                 checked && !isEdit ? "line-through" : "none"
@@ -69,36 +85,25 @@ const templateTodoTitle = (todoID, title, checked, isEdit = false) =>
 const templateTodoInEdit = (todoID, title) =>
     `<input onchange="onChangeEditedTodo(this, ${todoID})"
                 name="title"
-                class="todo-title" 
+                class="todo-title-input" 
                 id="input${todoID}"
                 value="${title}"
             >
-            </input>
-            <button type="submit"
-                class="edit-button"
-                form="title${todoID}" 
-            >
-                Ok
-            </button>`;
+            </input>`;
 
 const templateTodoCheckedInput = (todoID, checked) =>
-    `<div class="todo-checked">
-                <input
-                    type="checkbox"
-                    class="todo-checked-label"
-                    id="checked${todoID}"
-                    ${checked && "checked"}
-                    onclick="onCheckTodo(${todoID})"
-                />
-                <label
-                    class="todo-checked-label"
+    `<div class="todo-checked"
+                >
+                <button
+                    class="checked-button ${checked ? "checked" : ""}"
                     for="checked${todoID}"
                     onclick="onCheckTodo(${todoID})"
-                >
-                    checked
-                </label>
+                >checked</button>
+                
+                   
+                
             </div>`;
-
+/*
 const templateTodoEditButton = (todoID) =>
     `<div class="todo-edit">
                 <button
@@ -109,7 +114,8 @@ const templateTodoEditButton = (todoID) =>
                     edit
                 </button>
             </div>`;
-
+${templateTodoEditButton(todoID)} 
+*/
 const templateTodoDeleteButton = (todoID) =>
     `<div class="todo-delete">
                 <button
@@ -127,7 +133,6 @@ const templateTodo = ({ todoID, title, checked }, inEdit) =>
     `<div class="todo" id="${todoID}">
             ${templateTodoTitle(todoID, title, checked, isEdit(todoID, inEdit))}
             ${templateTodoCheckedInput(todoID, checked)}
-            ${templateTodoEditButton(todoID)} 
             ${templateTodoDeleteButton(todoID)}
             </div>`;
 
@@ -136,29 +141,13 @@ const templateTodoList = (todos, inEdit) =>
         ${todos.map((todo) => templateTodo(todo, inEdit)).join("")}
     </div>`;
 
-const templateFooter = (todos) =>
-    `<div class="app-footer" id="appFooter">
-        ${templateCounterUnchecked(getUncheckedTodo(todos).length)}
-        ${templateUndoRedo()}
-    </div>`;
-
-const templateCounterUnchecked = (count) =>
-    `<div class="counter-unchecked">active todo - ${count}</div>`;
-
-const templateUndoRedo = () =>
-    `<div>
-        <button class="app-footer-button" onclick="onUndo()">undo</button>
-        <button class="app-footer-button" onclick="onSave()">save</button>
-        <button class="app-footer-button" onclick="onRedo()">redo</button>
-    </div>`;
-
 const getUncheckedTodo = (todos) =>
     todos.filter((todoItem) => !todoItem.checked);
 
 const getCheckedTodo = (todos) => todos.filter((todoItem) => todoItem.checked);
 
 const templateTodoApp = ({ todos, inEdit, filter }) => {
-    todos =
+    let updateTodos =
         filter === "checked"
             ? getCheckedTodo(todos)
             : filter === "unchecked"
@@ -166,11 +155,11 @@ const templateTodoApp = ({ todos, inEdit, filter }) => {
             : todos;
 
     return `
-            ${templateNameApp("my_todo_list")}
+            ${templateNameApp("my_todo_list")}\
+            ${templateAppHistory(todos)}
             ${templateInputAddTodo()}
             ${templateFilterTodos(filter)}
-            ${templateTodoList(todos, inEdit)} 
-            ${templateFooter(todos)}    
+            ${templateTodoList(updateTodos, inEdit)}     
             `;
 };
 
@@ -231,7 +220,7 @@ const onCheckTodo = (todoID) => {
 const onEditTodo = (todoID) => {
     let state = getState();
     if (!state.inEdit.includes(todoID)) {
-        state.inEdit = state.inEdit.concat(todoID);
+        state.inEdit = [todoID];
         history.setNewState(state);
         setState();
     }
