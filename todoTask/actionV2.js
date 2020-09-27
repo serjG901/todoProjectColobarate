@@ -37,7 +37,7 @@ const templateInputAddTodo = () =>
             </form>`;
 
 const templateFilterTodos = (filter) =>
-            `<div class="filter">
+    `<div class="filter">
                 <input class="search-todo" 
                     onchange="onFilterTag(this)" 
                     placeholder="search_todo">
@@ -142,13 +142,15 @@ const getUncheckedTodo = (todos) =>
 const getCheckedTodo = (todos) => todos.filter((todoItem) => todoItem.checked);
 
 const getTagTodos = (todos, filter) =>
-    todos.filter((todoItem) => todoItem.title.indexOf(filter) != -1 ? true : false);
+    todos.filter((todoItem) =>
+        todoItem.title.indexOf(filter) != -1 ? true : false
+    );
 
 const templateTodoApp = ({ todos, inEdit, filter }) => {
     let updateTodos =
         filter === null
             ? todos
-            :  filter === "checked"
+            : filter === "checked"
             ? getCheckedTodo(todos)
             : filter === "unchecked"
             ? getUncheckedTodo(todos)
