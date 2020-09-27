@@ -1,4 +1,5 @@
-﻿const templateNameApp = (name) => `<a class="header-name" href="todoListStateV2.html">${name}</a>`;
+﻿const templateNameApp = (name) =>
+    `<a class="header-name" href="todoListStateV2.html">${name}</a>`;
 
 const templateAppHistory = (todos) =>
     `<div class="app-history" id="appHistory">
@@ -7,7 +8,7 @@ const templateAppHistory = (todos) =>
     </div>`;
 
 const templateCounterUnchecked = (count) =>
-    `<div class="app-history-count">active todo - ${count}</div>`;
+    `<div class="app-history-count">active_todo : ${count}</div>`;
 
 const templateUndoRedo = () =>
     `<div>
@@ -24,7 +25,7 @@ const templateInputAddTodo = () =>
                     class="todo-send-input"
                     type="text"
                     id="addTitle"
-                    placeholder="what to do?"
+                    placeholder="what_to_do?"
                     autofocus
                 />
                 <button type="submit"
@@ -36,7 +37,11 @@ const templateInputAddTodo = () =>
             </form>`;
 
 const templateFilterTodos = (filter) =>
-    `<div class="filter">
+            `<div class="filter">
+                <input class="search-todo" 
+                    onchange="onFilterTag(this)" 
+                    placeholder="search_todo">
+                </input>
                 <div class="filter-option">
                     <button
                         class="filter-option-button ${
@@ -72,7 +77,9 @@ const templateFilterTodos = (filter) =>
 const templateTodoTitle = (todoID, title, checked, isEdit = false) =>
     `<form onsubmit="onSaveEditedTodo(this, event, ${todoID})" 
             onclick="onEditTodo(${todoID})"
-            class="todo-title ${checked ? "done-todo" : "active-todo"} ${isEdit ? "active-input" : ""}" 
+            class="todo-title ${checked ? "done-todo" : "active-todo"} ${
+        isEdit ? "active-input" : ""
+    }" 
             id="title${todoID}" 
             style = "text-decoration:${
                 checked && !isEdit ? "line-through" : "none"
@@ -103,19 +110,7 @@ const templateTodoCheckedInput = (todoID, checked) =>
                    
                 
             </div>`;
-/*
-const templateTodoEditButton = (todoID) =>
-    `<div class="todo-edit">
-                <button
-                    class="edit-button"
-                    id="edit${todoID}"
-                    onclick="onEditTodo(${todoID})"
-                >
-                    edit
-                </button>
-            </div>`;
-${templateTodoEditButton(todoID)} 
-*/
+
 const templateTodoDeleteButton = (todoID) =>
     `<div class="todo-delete">
                 <button
@@ -146,13 +141,18 @@ const getUncheckedTodo = (todos) =>
 
 const getCheckedTodo = (todos) => todos.filter((todoItem) => todoItem.checked);
 
+const getTagTodos = (todos, filter) =>
+    todos.filter((todoItem) => todoItem.title.indexOf(filter) != -1 ? true : false);
+
 const templateTodoApp = ({ todos, inEdit, filter }) => {
     let updateTodos =
-        filter === "checked"
+        filter === null
+            ? todos
+            :  filter === "checked"
             ? getCheckedTodo(todos)
             : filter === "unchecked"
             ? getUncheckedTodo(todos)
-            : todos;
+            : getTagTodos(todos, filter);
 
     return `
             ${templateNameApp("my_todo_list")}\
@@ -254,6 +254,14 @@ const onDeleteTodo = (todoID) => {
     let state = getState();
     state.todos = removeTodo(state.todos, todoID);
     state.inEdit = state.inEdit.filter((id) => id !== todoID);
+    history.setNewState(state);
+    setState();
+};
+
+const onFilterTag = (element) => {
+    const tag = element.value;
+    let state = getState();
+    state.filter = tag;
     history.setNewState(state);
     setState();
 };

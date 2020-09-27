@@ -113,6 +113,7 @@ input {
     width: 100%;
     position: fixed;
     flex-direction: row-reverse;
+    padding: 4px 0;
 }
 .filter-option {
     display: flex;
@@ -134,10 +135,18 @@ input {
 .active-filter {
     border-left: solid 16px lawngreen;
 }
+.search-todo {
+    cursor: pointer;
+    text-align: right;
+    font-family: monospace;
+    background-color: #141;
+    color: lawngreen;
+    border: none;
+}
 .todos-list {
     display: flex;
     justify-content: center;
-    top: 12rem;
+    top: 13rem;
     width: 100%;
     position: absolute;
     justify-content: center;
@@ -240,7 +249,7 @@ input {
 .delete-button {
     color: red;
     background-color: #000;
-    border-right: solid 43px #000;
+    border-right: solid 40px #000;
     border-left: 16px solid #000;
 }
 .delete-button:hover {
