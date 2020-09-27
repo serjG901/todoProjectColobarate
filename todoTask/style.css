@@ -75,7 +75,7 @@ input {
     display: flex;
     border-left: solid 16px #141;
     height: 30px;
-    top: 63px;
+    top: 61px;
     width: 100%;
     position: fixed;
 }
@@ -113,7 +113,7 @@ input {
     height: 30px;
     background-color: #000;
     color: #fff;
-    top: 94px;
+    top: 92px;
     width: 100%;
     position: fixed;
     flex-direction: row-reverse;
