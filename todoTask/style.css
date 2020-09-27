@@ -69,7 +69,7 @@ input {
 }
 .app-history-count {
     color: lawngreen;
-    border-right: solid 16px #141;
+    border-right: solid 16px #000;
 }
 .todo-send {
     display: flex;
