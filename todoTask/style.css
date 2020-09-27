@@ -35,7 +35,7 @@ input {
     position: fixed;
     align-items: center;
     color: lawngreen;
-    border-left: solid 16px #141;
+    border-left: solid 16px #000;
     text-decoration: none;
 }
 .header-name:hover {
@@ -75,7 +75,7 @@ input {
     display: flex;
     border-left: solid 16px #141;
     height: 30px;
-    top: 61px;
+    top: 60px;
     width: 100%;
     position: fixed;
 }
@@ -110,10 +110,10 @@ input {
 }
 .filter {
     display: flex;
-    height: 30px;
+    height: 34px;
     background-color: #000;
     color: #fff;
-    top: 92px;
+    top: 90px;
     width: 100%;
     position: fixed;
     flex-direction: row-reverse;
@@ -141,7 +141,7 @@ input {
 .todos-list {
     display: flex;
     justify-content: center;
-    top: 129px;
+    top: 126px;
     width: 100%;
     position: absolute;
     justify-content: center;
