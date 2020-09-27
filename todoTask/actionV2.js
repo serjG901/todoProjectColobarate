@@ -38,9 +38,12 @@ const templateInputAddTodo = () =>
 
 const templateFilterTodos = (filter) =>
     `<div class="filter">
-                <input class="search-todo" 
+                <input class="search-todo ${
+                    ((filter !== null) && (filter !== "checked") && (filter !== "unchecked")) ? "active-filter" : ""
+                }" 
                     onchange="onFilterTag(this)" 
-                    placeholder="search_todo">
+                    placeholder="search_todo"
+                    value="${((filter !== null) && (filter !== "checked") && (filter !== "unchecked")) ? filter : ""}">
                 </input>
                 <div class="filter-option">
                     <button

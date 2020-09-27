@@ -132,17 +132,21 @@ input {
 .filter-option-button:active {
     border-left: solid 16px lawngreen;
 }
-.active-filter {
-    border-left: solid 16px lawngreen;
-}
 .search-todo {
     cursor: pointer;
-    text-align: right;
     font-family: monospace;
     background-color: #141;
     color: lawngreen;
     border: none;
+    border-left: solid 16px #141;
 }
+.active-filter {
+    border-left: solid 16px lawngreen;
+}
+.search-todo:hover {
+    border-left: solid 16px lawngreen;
+}
+
 .todos-list {
     display: flex;
     justify-content: center;
