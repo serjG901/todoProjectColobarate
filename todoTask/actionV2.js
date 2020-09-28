@@ -12,9 +12,19 @@ const templateCounterUnchecked = (count) =>
 
 const templateUndoRedo = () =>
     `<div>
-        <button class="app-history-button ${history.getCursor() === 0 ? "app-history-disable" : ""}" onclick="onUndo()">undo</button>
-        <button class="app-history-button ${history.getCursor() === history.getLength() ? "app-history-disable" : ""}" onclick="onSave()">save</button>
-        <button class="app-history-button ${history.getCursor() === history.getLength() ? "app-history-disable" : ""}" onclick="onRedo()">redo</button>
+        <button class="app-history-button ${
+            history.getCursor() === 0 ? "app-history-disable" : ""
+        }" onclick="onUndo()">undo</button>
+        <button class="app-history-button ${
+            history.getCursor() === history.getLength()
+                ? "app-history-disable"
+                : ""
+        }" onclick="onSave()">save</button>
+        <button class="app-history-button ${
+            history.getCursor() === history.getLength()
+                ? "app-history-disable"
+                : ""
+        }" onclick="onRedo()">redo</button>
     </div>`;
 
 const templateInputAddTodo = () =>
@@ -38,12 +48,10 @@ const templateInputAddTodo = () =>
 
 const templateFilterTodos = (filter, tag) =>
     `<div class="filter">
-                <input class="search-todo ${
-                    (tag) ? "active-filter" : ""
-                }" 
+                <input class="search-todo ${tag ? "active-filter" : ""}" 
                     onchange="onFilterTag(this)" 
                     placeholder="search_todo"
-                    value="${(tag) ? tag : ""}">
+                    value="${tag ? tag : ""}">
                 </input>
                 <div class="filter-option">
                     <button type="button"
