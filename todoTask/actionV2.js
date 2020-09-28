@@ -317,7 +317,7 @@ const onSave = () => {
 
 let stateSession = {};
 
-let history = {
+const history = {
     allState: [],
     cursor: -1,
     length: -1,
