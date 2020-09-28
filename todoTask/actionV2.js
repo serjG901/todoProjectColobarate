@@ -13,7 +13,7 @@ const templateCounterUnchecked = (count) =>
 const templateUndoRedo = () =>
     `<div>
         <button class="app-history-button ${history.getCursor() === 0 ? "app-history-disable" : ""}" onclick="onUndo()">undo</button>
-        <button class="app-history-button" onclick="onSave()">save</button>
+        <button class="app-history-button ${history.getCursor() === history.getLength() ? "app-history-disable" : ""}" onclick="onSave()">save</button>
         <button class="app-history-button ${history.getCursor() === history.getLength() ? "app-history-disable" : ""}" onclick="onRedo()">redo</button>
     </div>`;
 
@@ -304,6 +304,7 @@ const onRedo = () => {
 
 const onSave = () => {
     history.setLength();
+    setState();
 };
 
 let stateSession = {};
