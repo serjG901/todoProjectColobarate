@@ -374,8 +374,8 @@ const setLocalStorageHistory = (newHistory) => {
 
 const ready = () => {
     if (getLocalStorageState()) {
-        const newState = getLocalStorageState();
-        history.setNewState(newState);
+        const newStateFromLocalStorage = getLocalStorageState();
+        history.setNewState(newStateFromLocalStorage);
     }
     const newState = history.getState();
 
