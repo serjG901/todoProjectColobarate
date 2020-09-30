@@ -356,11 +356,11 @@ const onDeleteTodo = (todoID) => {
             state.length === state.cursor
                 ? state.history.concat({
                       todos: newTodos,
-                      inEdit: state.inEdit,
+                      inEdit: state.inEdit === todoID ? null : state.inEdit,
                   })
                 : state.history.slice(0, state.cursor + 1).concat({
                       todos: newTodos,
-                      inEdit: state.inEdit,
+                      inEdit: state.inEdit === todoID ? null : state.inEdit,
                   }),
     };
     setState(state);
