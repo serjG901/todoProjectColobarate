@@ -1,7 +1,7 @@
 ﻿const templateNameApp = (name) =>
     `<a 
         class="header-name" 
-        href="todoListStateV2.html"
+        href="todoList.html"
     >
         ${name}
     </a>`;
@@ -190,7 +190,7 @@ const getTagTodos = (todos, tag) =>
     );
 
 const templateTodoApp = ({ todos, inEdit, filter, tag, cursor, history }) => {
-    let updateTodos =
+    const updateTodosFirstFilter =
         filter === null
             ? todos
             : filter === "checked"
@@ -198,7 +198,7 @@ const templateTodoApp = ({ todos, inEdit, filter, tag, cursor, history }) => {
             : filter === "unchecked"
             ? getUncheckedTodo(todos)
             : todos;
-    if (tag) updateTodos = getTagTodos(updateTodos, tag);
+    const updateTodos = (tag) ? getTagTodos(updateTodosFirstFilter, tag) : updateTodosFirstFilter;
     return `
         ${templateNameApp("my_todo_list")}
         ${templateAppHistory(todos, cursor, history.length)}
