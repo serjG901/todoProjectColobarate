@@ -133,7 +133,6 @@ const templateTodoTitle = (todoID, title, checked, isEdit = false) =>
 //
 const templateTodoInEdit = (todoID, title) =>
     `<input 
-        onchange="onChangeEditedTodo(this, ${todoID})"
         name="title"
         class="todo-title-input" 
         id="input${todoID}"
@@ -198,7 +197,9 @@ const templateTodoApp = ({ todos, inEdit, filter, tag, cursor, history }) => {
             : filter === "unchecked"
             ? getUncheckedTodo(todos)
             : todos;
-    const updateTodos = (tag) ? getTagTodos(updateTodosFirstFilter, tag) : updateTodosFirstFilter;
+    const updateTodos = tag
+        ? getTagTodos(updateTodosFirstFilter, tag)
+        : updateTodosFirstFilter;
     return `
         ${templateNameApp("my_todo_list")}
         ${templateAppHistory(todos, cursor, history.length)}
@@ -241,12 +242,7 @@ const onAddTodo = (formElement, event) => {
     const newTodo = createTodo(title);
     const state = getState();
     const newTodos = addTodoInState(state.todos, newTodo);
-    const newState = {
-        ...state,
-        todos: newTodos,
-        cursor: state.cursor + 1,
-        history: newHistory(state, newTodos, state.inEdit),
-    };
+    const newState = createState(state, newTodos, null);
     setState(newState);
 };
 
@@ -262,12 +258,7 @@ const onCheckTodo = (todoID) => {
     const todoEdited = state.todos.find((todo) => todo.todoID === todoID);
     const updateTodo = { ...todoEdited, checked: !todoEdited.checked };
     const newTodos = saveEditedTodo(state.todos, updateTodo);
-    const newState = {
-        ...state,
-        todos: newTodos,
-        cursor: state.cursor + 1,
-        history: newHistory(state, newTodos, state.inEdit),
-    };
+    const newState = createState(state, newTodos, null);
     setState(newState);
 };
 
@@ -291,27 +282,8 @@ const onSaveEditedTodo = (formElement, event, todoID) => {
     const todoEdited = state.todos.find((todo) => todo.todoID === todoID);
     const updateTodoEdited = { ...todoEdited, title: title };
     const newTodos = saveEditedTodo(state.todos, updateTodoEdited);
-    const newState = {
-        ...state,
-        todos: newTodos,
-        inEdit: null,
-        cursor: state.cursor + 1,
-        history: newHistory(state, newTodos, null),
-    };
+    const newState = createState(state, newTodos, null);
     setState(newState);
-};
-
-const onChangeEditedTodo = (element, todoID) => {
-    const title = element.value;
-    const state = getState();
-    const todoEdited = state.todos.find((todo) => todo.todoID === todoID);
-    const updateTodoEdited = { ...todoEdited, title: title };
-    const newState = {
-        ...state,
-        inEdit: null,
-        todos: saveEditedTodo(state.todos, updateTodoEdited),
-    };
-    setStateNotRender(newState);
 };
 
 const removeTodo = (todos, todoID) =>
@@ -320,38 +292,8 @@ const removeTodo = (todos, todoID) =>
 const onDeleteTodo = (todoID) => {
     const state = getState();
     const newTodos = removeTodo(state.todos, todoID);
-    const newState = {
-        ...state,
-        todos: newTodos,
-        inEdit: state.inEdit === todoID ? null : state.inEdit,
-        cursor: state.cursor + 1,
-        history: newHistory(
-            state,
-            newTodos,
-            state.inEdit === todoID ? null : state.inEdit
-        ),
-    };
+    const newState = createState(state, newTodos, null);
     setState(newState);
-};
-
-const newHistory = (state, newTodos, inEdit) => {
-    const newHistory =
-        state.cursor === state.history.length
-            ? [
-                  ...state.history,
-                  {
-                      todos: newTodos,
-                      inEdit,
-                  },
-              ]
-            : [
-                  ...state.history.slice(0, state.cursor + 1),
-                  {
-                      todos: newTodos,
-                      inEdit,
-                  },
-              ];
-    return newHistory;
 };
 
 const onFilterTag = (element) => {
@@ -406,6 +348,37 @@ const onSave = () => {
     setState(newState);
 };
 
+const newHistory = (state, newTodos, inEdit) => {
+    const newHistory =
+        state.cursor === state.history.length
+            ? [
+                  ...state.history,
+                  {
+                      todos: newTodos,
+                      inEdit,
+                  },
+              ]
+            : [
+                  ...state.history.slice(0, state.cursor + 1),
+                  {
+                      todos: newTodos,
+                      inEdit,
+                  },
+              ];
+    return newHistory;
+};
+
+const createState = (state, newTodos, inEdit) => {
+    const newState = {
+        ...state,
+        todos: newTodos,
+        cursor: state.cursor + 1,
+        inEdit,
+        history: newHistory(state, newTodos, inEdit),
+    };
+    return newState;
+};
+
 let stateSession = {};
 
 const getState = () => {
@@ -417,12 +390,6 @@ const setState = (newState) => {
     stateSession = { ...newState, todos, inEdit };
     setLocalStorageState(stateSession);
     render(stateSession);
-};
-
-const setStateNotRender = (newState) => {
-    const { todos, inEdit } = newState.history[newState.cursor];
-    stateSession = { ...newState, todos, inEdit };
-    setLocalStorageState(stateSession);
 };
 
 const setLocalStorageState = (newState) => {
