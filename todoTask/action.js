@@ -297,29 +297,33 @@ const onEditTodo = (todoID) => {
 const onSaveEditedTodo = (formElement, event, todoID) => {
     event.preventDefault();
     const title = getFormData(formElement)["title"];
-    let state = getState();
-    const todoEdited = state.todos.find((todo) => todo.todoID === todoID);
-    const updateTodoEdited = { ...todoEdited, title: title };
-    let newTodos = saveEditedTodo(state.todos, updateTodoEdited);
-    state = {
-        ...state,
-        todos: newTodos,
-        inEdit: null,
-        cursor: state.cursor + 1,
-        length:
-            state.length === state.cursor ? state.length + 1 : state.cursor + 1,
-        history:
-            state.length === state.cursor
-                ? state.history.concat({
-                      todos: newTodos,
-                      inEdit: null,
-                  })
-                : state.history.slice(0, state.cursor + 1).concat({
-                      todos: newTodos,
-                      inEdit: null,
-                  }),
-    };
-    setState(state);
+    if (title !== "") {
+        let state = getState();
+        const todoEdited = state.todos.find((todo) => todo.todoID === todoID);
+        const updateTodoEdited = { ...todoEdited, title: title };
+        let newTodos = saveEditedTodo(state.todos, updateTodoEdited);
+        state = {
+            ...state,
+            todos: newTodos,
+            inEdit: null,
+            cursor: state.cursor + 1,
+            length:
+                state.length === state.cursor
+                    ? state.length + 1
+                    : state.cursor + 1,
+            history:
+                state.length === state.cursor
+                    ? state.history.concat({
+                          todos: newTodos,
+                          inEdit: null,
+                      })
+                    : state.history.slice(0, state.cursor + 1).concat({
+                          todos: newTodos,
+                          inEdit: null,
+                      }),
+        };
+        setState(state);
+    }
 };
 
 const onChangeEditedTodo = (element, todoID) => {
