@@ -1,155 +1,183 @@
 ﻿const templateNameApp = (name) =>
-    `<a class="header-name" href="todoListStateV2.html">${name}</a>`;
+    `<a 
+        class="header-name" 
+        href="todoListStateV2.html"
+    >
+        ${name}
+    </a>`;
 
 const templateAppHistory = (todos, cursor, length) =>
-    `<div class="app-history" id="appHistory">
+    `<div 
+        class="app-history" 
+        id="appHistory"
+    >
         ${templateCounterUnchecked(getUncheckedTodo(todos).length)}
         ${templateUndoRedo(cursor, length)}
     </div>`;
 
 const templateCounterUnchecked = (count) =>
-    `<div class="app-history-count">active_todo : ${count}</div>`;
+    `<div class="app-history-count">
+        active_todo : ${count}
+    </div>`;
 
 const templateUndoRedo = (cursor, length) =>
     `<div>
-        <button class="app-history-button ${
-            cursor === 0 ? "app-history-disable" : ""
-        }" onclick="onUndo()">undo</button>
-        <button class="app-history-button ${
-            cursor < length ? "" : "app-history-disable"
-        }" onclick="onSave()">save</button>
-        <button class="app-history-button ${
-            cursor === length ? "app-history-disable" : ""
-        }" onclick="onRedo()">redo</button>
+        <button 
+            class="app-history-button ${
+                cursor === 0 ? "app-history-disable" : ""
+            }" 
+            onclick="onUndo()"
+        >
+            undo
+        </button>
+        <button 
+            class="app-history-button ${
+                cursor < length ? "" : "app-history-disable"
+            }"
+            onclick="onSave()"
+        >
+            save
+        </button>
+        <button 
+            class="app-history-button ${
+                cursor === length ? "app-history-disable" : ""
+            }"
+            onclick="onRedo()"
+        >
+            redo
+        </button>
     </div>`;
 
 const templateInputAddTodo = () =>
-    `<form onsubmit="onAddTodo(this, event)"
-                class="todo-send"
-                id="addTodo">
-                <input name="title"
-                    class="todo-send-input"
-                    type="text"
-                    id="addTitle"
-                    placeholder="what_to_do?"
-                    autofocus
-                />
-                <button type="submit"
-                    form="addTodo"
-                    class="todo-send-button" 
-                    id="addButton">
-                    add
-                </button>
-            </form>`;
+    `<form 
+        onsubmit="onAddTodo(this, event)"
+        class="todo-send"
+        id="addTodo"
+    >
+        <input 
+            name="title"
+            class="todo-send-input"
+            type="text"
+            id="addTitle"
+            placeholder="what_to_do?"
+            autofocus
+        />
+        <button 
+            type="submit"
+            form="addTodo"
+            class="todo-send-button" 
+            id="addButton"
+            >
+                add
+            </button>
+    </form>`;
 
 const templateFilterTodos = (filter, tag) =>
     `<div class="filter">
-                        <input class="search-todo ${
-                            tag ? "active-filter" : ""
-                        }" 
-                            onchange="onFilterTag(this)" 
-                            placeholder="search_todo"
-                            value="${tag ? tag : ""}">
-                        </input>
-                        <div class="filter-option">
-                            <button type="button"
-                                class="filter-option-button ${
-                                    filter === null ? "active-filter" : ""
-                                }"
-                                onclick="showAllTodos()"
-                            >
-                                all_todo
-                            </button>
-                        </div>
-                        <div class="filter-option">
-                            <button type="button"
-                                class="filter-option-button ${
-                                    filter === "checked" ? "active-filter" : ""
-                                }"
-                                onclick="showCheckedTodos()"
-                            >
-                                checked
-                            </button>
-                        </div>
-                        <div class="filter-option">
-                            <button type="button"
-                                class="filter-option-button ${
-                                    filter === "unchecked"
-                                        ? "active-filter"
-                                        : ""
-                                }"
-                                onclick="showUncheckedTodos()"
-                            >
-                                unchecked
-                            </button>
-                        </div>
-                    </div>`;
+        <input 
+            class="search-todo ${tag ? "active-filter" : ""}" 
+            onchange="onFilterTag(this)" 
+            placeholder="search_todo"
+            value="${tag ? tag : ""}"
+        />
+        <div class="filter-option">
+            <button 
+                type="button"
+                class="filter-option-button ${
+                    filter === null ? "active-filter" : ""
+                }"
+                onclick="showAllTodos()"
+            >
+                all_todo
+            </button>
+        </div>
+        <div class="filter-option">
+            <button 
+                type="button"
+                class="filter-option-button ${
+                    filter === "checked" ? "active-filter" : ""
+                }"
+                onclick="showCheckedTodos()"
+            >
+                checked
+            </button>
+        </div>
+        <div class="filter-option">
+            <button 
+                type="button"
+                class="filter-option-button ${
+                    filter === "unchecked" ? "active-filter" : ""
+                }"
+                onclick="showUncheckedTodos()"
+            >
+                unchecked
+            </button>
+        </div>
+    </div>`;
 
 const templateTodoTitle = (todoID, title, checked, isEdit = false) =>
-    `<form onsubmit="onSaveEditedTodo(this, event, ${todoID})" 
-                    onclick="onEditTodo(${todoID})"
-                    class="todo-title ${
-                        checked ? "done-todo" : "active-todo"
-                    } ${isEdit ? "active-input" : ""}" 
-                    id="title${todoID}" 
-                    style = "text-decoration:${
-                        checked && !isEdit ? "line-through" : "none"
-                    }"
-                    name="title${todoID}"
-                >
-                    ${isEdit ? templateTodoInEdit(todoID, title) : title}
-            </form>`;
+    `<form 
+        onsubmit="onSaveEditedTodo(this, event, ${todoID})" 
+        onclick="onEditTodo(${todoID})"
+        class="todo-title ${checked ? "done-todo" : "active-todo"} ${
+        isEdit ? "active-input" : ""
+    }" 
+        id="title${todoID}" 
+        style = "text-decoration:${
+            checked && !isEdit ? "line-through" : "none"
+        }"
+        name="title${todoID}"
+    >
+        ${isEdit ? templateTodoInEdit(todoID, title) : title}
+    </form>`;
 //
 const templateTodoInEdit = (todoID, title) =>
-    `<input onchange="onChangeEditedTodo(this, ${todoID})"
-                        name="title"
-                        class="todo-title-input" 
-                        id="input${todoID}"
-                        value="${title}"
-                    >
-                    </input>`;
+    `<input 
+        onchange="onChangeEditedTodo(this, ${todoID})"
+        name="title"
+        class="todo-title-input" 
+        id="input${todoID}"
+        value="${title}"
+    />`;
 
 const templateTodoCheckedInput = (todoID, checked) =>
-    `<div class="todo-checked"
-                        >
-                        <button
-                            class="checked-button ${checked ? "checked" : ""}"
-                            for="checked${todoID}"
-                            onclick="onCheckTodo(${todoID})"
-                        >checked</button>
-                    </div>`;
+    `<div class="todo-checked">
+        <button
+            class="checked-button ${checked ? "checked" : ""}"
+            for="checked${todoID}"
+            onclick="onCheckTodo(${todoID})"
+        >
+            checked
+        </button>
+    </div>`;
 
 const templateTodoDeleteButton = (todoID) =>
     `<div class="todo-delete">
-                        <button
-                            class="delete-button"
-                            id="delete${todoID}"
-                            onclick="onDeleteTodo(${todoID})"
-                        >
-                            delete
-                        </button>
-                    </div>`;
+        <button
+            class="delete-button"
+            id="delete${todoID}"
+            onclick="onDeleteTodo(${todoID})"
+        >
+            delete
+        </button>
+    </div>`;
 
 const isEdit = (todoID, inEdit) => inEdit === todoID;
 
 const templateTodo = ({ todoID, title, checked }, inEdit) =>
     `<div class="todo" id="${todoID}">
-                                ${templateTodoTitle(
-                                    todoID,
-                                    title,
-                                    checked,
-                                    isEdit(todoID, inEdit)
-                                )}
-                                ${templateTodoCheckedInput(todoID, checked)}
-                                ${templateTodoDeleteButton(todoID)}
-                                </div>`;
+        ${templateTodoTitle(todoID, title, checked, isEdit(todoID, inEdit))}
+        ${templateTodoCheckedInput(todoID, checked)}
+        ${templateTodoDeleteButton(todoID)}
+    </div>`;
 
 const templateTodoList = (todos, inEdit) =>
-    `<div class="todos-list" id="todosList">
-                            ${todos
-                                .map((todo) => templateTodo(todo, inEdit))
-                                .join("")}
-                        </div>`;
+    `<div 
+        class="todos-list" 
+        id="todosList"
+    >
+        ${todos.map((todo) => templateTodo(todo, inEdit)).join("")}
+    </div>`;
 
 const getUncheckedTodo = (todos) =>
     todos.filter((todoItem) => !todoItem.checked);
@@ -424,7 +452,6 @@ const getState = () => {
 const setState = (newState) => {
     let { todos, inEdit } = newState.history[newState.cursor];
     stateSession = { ...newState, todos, inEdit };
-
     setLocalStorageState(stateSession);
     render(stateSession);
 };
@@ -444,7 +471,6 @@ const getLocalStorageState = () =>
 
 const ready = () => {
     const newState = getLocalStorageState();
-
     if (newState) {
         setState(newState);
     } else {
