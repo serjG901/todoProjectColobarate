@@ -265,12 +265,7 @@ const onCheckTodo = (todoID) => {
 const onEditTodo = (todoID) => {
     const state = getState();
     if (state.inEdit === todoID) return;
-    const newState = {
-        ...state,
-        inEdit: todoID,
-        cursor: state.cursor + 1,
-        history: newHistory(state, state.todos, todoID),
-    };
+    const newState = createState(state, state.todos, todoID);
     setState(newState);
 };
 
