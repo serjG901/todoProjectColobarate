@@ -185,7 +185,9 @@ const getCheckedTodo = (todos) => todos.filter((todoItem) => todoItem.checked);
 
 const getTagTodos = (todos, tag) =>
     todos.filter((todoItem) =>
-        todoItem.title.indexOf(tag) != -1 ? true : false
+        todoItem.title.toLowerCase().indexOf(tag.toLowerCase()) != -1
+            ? true
+            : false
     );
 
 const templateTodoApp = ({ todos, inEdit, filter, tag, cursor, history }) => {
