@@ -121,7 +121,7 @@ input {
     flex-direction: row;
     padding: 4px 0;
     justify-content: space-around;
-    box-shadow: 0 14px 28px rgba(16, 64, 16, 0.25);
+    box-shadow: 0 14px 28px rgba(17, 68, 17, 0.5);
 }
 .filter-option {
     display: flex;
@@ -207,9 +207,6 @@ input {
     color: lawngreen;
     border: none;
 }
-.edit-button {
-    word-break: normal;
-}
 .todo-checked {
     display: flex;
     justify-content: center;
@@ -238,7 +235,7 @@ input {
     color: lawngreen;
 }
 .done-todo {
-    color: lawngreen;
+    color: #141;
 }
 .todo-edit {
     margin: 0 20px;
