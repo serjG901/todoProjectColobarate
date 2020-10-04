@@ -23,25 +23,15 @@ const templateCounterUnchecked = (count) =>
 const templateUndoRedo = (cursor, length) =>
     `<div>
         <button 
-            class="app-history-button ${
-                cursor === 0 ? "app-history-disable" : ""
-            }" 
+            class="app-history-button"
+            ${cursor === 0 ? "disabled" : ""} 
             onclick="onUndo()"
         >
             undo
         </button>
         <button 
-            class="app-history-button ${
-                cursor + 1 < length ? "" : "app-history-disable"
-            }"
-            onclick="onSave()"
-        >
-            save
-        </button>
-        <button 
-            class="app-history-button ${
-                cursor + 1 === length ? "app-history-disable" : ""
-            }"
+            class="app-history-button"
+            ${cursor + 1 === length ? "disabled" : ""}
             onclick="onRedo()"
         >
             redo
@@ -184,10 +174,9 @@ const getUncheckedTodo = (todos) =>
 const getCheckedTodo = (todos) => todos.filter((todoItem) => todoItem.checked);
 
 const getTagTodos = (todos, tag) =>
-    todos.filter((todoItem) =>
-        todoItem.title.toLowerCase().indexOf(tag.toLowerCase()) != -1
-            ? true
-            : false
+    todos.filter(
+        (todoItem) =>
+            todoItem.title.toLowerCase().indexOf(tag.toLowerCase()) != -1
     );
 
 const templateTodoApp = ({ todos, inEdit, filter, tag, cursor, history }) => {
@@ -235,7 +224,7 @@ const createTodo = (title) => {
     };
 };
 
-const addTodoInState = (todos, newTodo) => [...todos, newTodo];
+const addItemInArray = (todos, newTodo) => [...todos, newTodo];
 
 const onAddTodo = (formElement, event) => {
     event.preventDefault();
@@ -243,7 +232,7 @@ const onAddTodo = (formElement, event) => {
     if (title === "") return;
     const newTodo = createTodo(title);
     const state = getState();
-    const newTodos = addTodoInState(state.todos, newTodo);
+    const newTodos = addItemInArray(state.todos, newTodo);
     const newState = createState(state, newTodos, null);
     setState(newState);
 };
@@ -323,7 +312,7 @@ const onUndo = () => {
     if (state.cursor === 0) return;
     const newState = {
         ...state,
-        cursor: (state.cursor -= 1),
+        cursor: state.cursor - 1,
     };
     setState(newState);
 };
@@ -331,37 +320,18 @@ const onUndo = () => {
 const onRedo = () => {
     const state = getState();
     if (state.cursor + 1 === state.history.length) return;
-    const newState = { ...state, cursor: (state.cursor += 1) };
+    const newState = { ...state, cursor: state.cursor + 1 };
     setState(newState);
 };
 
-const onSave = () => {
-    const state = getState();
-    if (state.cursor + 1 === state.history.length) return;
-    const newState = {
-        ...state,
-        history: state.history.slice(0, state.cursor + 1),
-    };
-    setState(newState);
-};
-
-const newHistory = (state, newTodos, inEdit) => {
-    const newHistory =
-        state.cursor === state.history.length
-            ? [
-                  ...state.history,
-                  {
-                      todos: newTodos,
-                      inEdit,
-                  },
-              ]
-            : [
-                  ...state.history.slice(0, state.cursor + 1),
-                  {
-                      todos: newTodos,
-                      inEdit,
-                  },
-              ];
+const createHistory = (state, newTodos, inEdit) => {
+    const newHistory = [
+        ...state.history.slice(0, state.cursor + 1),
+        {
+            todos: newTodos,
+            inEdit,
+        },
+    ];
     return newHistory;
 };
 
@@ -371,7 +341,7 @@ const createState = (state, newTodos, inEdit) => {
         todos: newTodos,
         cursor: state.cursor + 1,
         inEdit,
-        history: newHistory(state, newTodos, inEdit),
+        history: createHistory(state, newTodos, inEdit),
     };
     return newState;
 };
@@ -397,20 +367,16 @@ const getLocalStorageState = () =>
     localStorage.state ? JSON.parse(localStorage.getItem("state")) : null;
 
 const ready = () => {
-    const newState = getLocalStorageState();
-    if (newState) {
-        setState(newState);
-    } else {
-        const initialState = {
-            todos: [],
-            inEdit: null,
-            filter: null,
-            tag: null,
-            cursor: 0,
-            history: [{ todos: [], inEdit: null }],
-        };
-        setState(initialState);
-    }
+    const newState = getLocalStorageState() || {
+        todos: [],
+        inEdit: null,
+        filter: null,
+        tag: null,
+        cursor: 0,
+        history: [{ todos: [], inEdit: null }],
+    };
+
+    setState(newState);
 };
 
 ready();
